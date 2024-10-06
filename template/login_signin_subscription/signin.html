@@ -1,0 +1,55 @@
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-4">
+        <div class="p-4 border rounded" style="border-width: 5px; border-color: #cccccc;">
+            <form method="POST" action="{% url 'log_base' %}">
+                {% csrf_token %}
+                <!-- Form container with border and centered alignment -->
+                <div class="p-4 border rounded" style="border-width: 2px; border-color: #333; background-color: #fff;">
+                    <!-- First Name -->
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">User First Name</label>
+                        <input type="text" class="form-control" id="userName" name="first_name" aria-describedby="nameHelp" required>
+                    </div>
+
+                    <!-- Last Name -->
+                    <div class="mb-3">
+                        <label for="userLastName" class="form-label">User Last Name</label>
+                        <input type="text" class="form-control" id="userLastName" name="last_name" aria-describedby="nameHelp" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone Number" required pattern="[0-9]{10}">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Confirm Password" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                       <button type="button" class="btn btn-primary w-100" onclick="window.location.href='{% url 'log_base' %}'">Submit</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

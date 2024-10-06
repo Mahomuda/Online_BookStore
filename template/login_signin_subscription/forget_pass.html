@@ -1,0 +1,39 @@
+{% extends "login.html" %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-4">
+        <div class="p-4 border rounded" style="border-width: 5px; border-color: #ccc;">
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="userName" class="form-label">User First Name</label>
+                    <input type="text" class="form-control" id="userName" name="first_name" aria-describedby="nameHelp" required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Confirm Password" required>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

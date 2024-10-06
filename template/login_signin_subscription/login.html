@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="col-md-4">
+        <div class="p-4 border rounded" style="border-width: 5px; border-color: #cccccc;">
+            <form method="POST">
+
+                <!-- Floating User Name Field -->
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatinguserName" name="username" placeholder="User Name" required>
+                    <label for="floatinguserName">User Name</label>
+                </div>
+
+                <!-- Floating Password Field -->
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
+                    <label for="floatingPassword">Password</label>
+                </div>
+
+                <!-- Forgot Password -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'forget_pass' %}">Forgot Password?</a>
+                </div>
+                <br>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="button" class="btn btn-primary w-100" onclick="window.location.href='{% url 'signin' %}'">Sign In</button>
+
+                </div>
+                <br>
+
+                <!-- Login with -->
+                <div class="text-center mt-3">
+                    <a href="{% url 'login_with' %}">Login with</a>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
