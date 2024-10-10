@@ -1,0 +1,16 @@
+body {
+    background-image: url('/static/background.jpg'); /* Specify the path to your image */
+    background-size: cover; /* Make sure the image covers the entire page */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image on the page */
+    height: 100vh; /* Set the height of the body to full screen */
+    margin: 0; /* Remove margin to make the image cover the whole page */
+}
+
+/* Style the content over the background */
+.content {
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin-top: 20%;
+}
