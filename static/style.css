@@ -1,5 +1,5 @@
 body {
-    background-image: url('/static/background.jpg'); /* Specify the path to your image */
+    background-image: url('/static/image/background.jpg'); /* Specify the path to your image */
     background-size: cover; /* Make sure the image covers the entire page */
     background-repeat: no-repeat; /* Prevent the image from repeating */
     background-position: center; /* Center the image on the page */
@@ -13,4 +13,7 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     margin-top: 20%;
+}
+.form-container {
+    filter: blur(15px);  /* Blurs everything behind the form */
 }

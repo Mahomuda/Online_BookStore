@@ -3,7 +3,8 @@
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="col-md-4">
-        <div class="p-4 border rounded" style="border-width: 5px; border-color: #cccccc; ">
+        <!-- Green colored box -->
+        <div class="p-4 border rounded" style="background-color: #ced4da;; border-width: 5px; border-color: #cccccc;">
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-floating mb-3">
@@ -17,7 +18,7 @@
 
                 <!-- Forgot Password -->
                 <div class="text-center mt-3">
-                    <a href="{% url 'forget_pass' %}">Forgot Password?</a>
+                    <a href="{% url 'forget_pass' %}" class="text-light">Forgot Password?</a>
                 </div>
                 <br>
 
@@ -34,7 +35,7 @@
 
                 <!-- Login with -->
                 <div class="text-center mt-3">
-                    <a href="{% url 'login_with' %}">Login with</a>
+                    <a href="{% url 'login_with' %}" class="text-light">Login with</a>
                 </div>
             </form>
         </div>

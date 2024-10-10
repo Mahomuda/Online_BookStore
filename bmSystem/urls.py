@@ -25,10 +25,10 @@ from myapp import views as rent_books
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',myapp_views.home, name='home'),
+    path('home/',myapp_views.home, name='home'),
     path('contacts/',myapp_views.contacts, name='contacts'),
     path('books/',myapp_views.books, name='books'),
-    path('litshelf/',myapp_views.litshelf, name='litshelf'),
+    path('',myapp_views.litshelf, name='litshelf'),
 
 
     path('academic/', buy_books_views.academic, name='academic'),
