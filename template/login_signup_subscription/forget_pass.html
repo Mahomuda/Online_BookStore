@@ -1,4 +1,4 @@
-{% extends "login.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
@@ -7,7 +7,7 @@
             <form method="POST">
                 <div class="mb-3">
                     <label for="userName" class="form-label">User First Name</label>
-                    <input type="text" class="form-control" id="userName" name="first_name" aria-describedby="nameHelp" required>
+                    <input type="text" class="form-control" id="userName" name="first_name" aria-describedby="nameHelp" placeholder="User Name" required>
                 </div>
 
                 <!-- Email Field -->
@@ -29,7 +29,8 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-primary w-100">Sign In</button>
+                    <a href="{% url 'home' %}" class="btn btn-primary w-100">Submit</a>
+                    <!--<button type="submit" class="btn btn-primary w-100">Sign In</button> -->
                 </div>
 
             </form>

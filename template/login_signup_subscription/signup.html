@@ -1,7 +1,8 @@
+{% extends "base.html" %}
+
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
     <div class="col-md-4">
-        <div class="p-4 border rounded" style="border-width: 5px; border-color: #cccccc;">
             <form method="POST" action="{% url 'log_base' %}">
                 {% csrf_token %}
                 <!-- Form container with border and centered alignment -->
@@ -9,13 +10,13 @@
                     <!-- First Name -->
                     <div class="mb-3">
                         <label for="userName" class="form-label">User First Name</label>
-                        <input type="text" class="form-control" id="userName" name="first_name" aria-describedby="nameHelp" required>
+                        <input type="text" class="form-control" id="userName" name="first_name" aria-describedby="nameHelp" placeholder="First Name" required>
                     </div>
 
                     <!-- Last Name -->
                     <div class="mb-3">
                         <label for="userLastName" class="form-label">User Last Name</label>
-                        <input type="text" class="form-control" id="userLastName" name="last_name" aria-describedby="nameHelp" required>
+                        <input type="text" class="form-control" id="userLastName" name="last_name" aria-describedby="nameHelp" placeholder="Last Name" required>
                     </div>
 
                     <!-- Email -->
@@ -43,13 +44,12 @@
                     </div>
 
                     <!-- Submit Button -->
-                    <div>
-                       <button type="button" class="btn btn-primary w-100" onclick="window.location.href='{% url 'log_base' %}'">Submit</button>
+                     <div>
+                    <a href="{% url 'home' %}" class="btn btn-primary w-100">Submit</a>
+                </div>
 
-                    </div>
                 </div>
             </form>
         </div>
     </div>
-</div>
 {% endblock %}
