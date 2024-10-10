@@ -6,28 +6,53 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- Profile Link -->
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'sub_profile' %}">Profile</a>
         </li>
 
+        <!-- Main Dropdown for Books -->
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Books
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="{% url 'Buy_Books' %}">Buy Books</a></li>
-              <li><a class="dropdown-item" href="{% url 'Rent_Books' %}">Rent Books</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'u_help' %}">Help</a>
-          </li>
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Books
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <!-- Nested Dropdown for Buy Books -->
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" >Buy Books</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'novel' %}">Novel</a></li>
+                <li><a class="dropdown-item" href="{% url 'fiction' %}">Fiction</a></li>
+                <li><a class="dropdown-item" href="{% url 'poetry' %}">Poetry</a></li>
+                <li><a class="dropdown-item" href="{% url 'academic' %}">Academic</a></li>
+                <li><a class="dropdown-item" href="{% url 'thriller' %}">Thriller</a></li>
+              </ul>
+            </li>
+            <!-- Nested Dropdown for Rent Books -->
+            <li class="dropdown-submenu">
+              <a class="dropdown-item dropdown-toggle" >Rent Books</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'r_novel' %}">Novel</a></li>
+                <li><a class="dropdown-item" href="{% url 'r_fiction' %}">Fiction</a></li>
+                <li><a class="dropdown-item" href="{% url 'r_poetry' %}">Poetry</a></li>
+                <li><a class="dropdown-item" href="{% url 'r_academic' %}">Academic</a></li>
+                <li><a class="dropdown-item" href="{% url 'r_thriller' %}">Thriller</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <!-- Help Link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'sub_help' %}">Help</a>
+        </li>
       </ul>
+
+      <!-- Search and Logout -->
       <form class="d-flex">
         <button class="btn btn-outline-light me-4" type="submit">Search</button>
-         <a class="btn btn-danger me-4">Subscribed</a>
-        <a href="{% url 'home' %}" class="btn btn-light ">Logout</a>
-
+        <a class="btn btn-danger me-4">Subscribed</a>
+        <a href="{% url 'home' %}" class="btn btn-light">Logout</a>
       </form>
     </div>
   </div>

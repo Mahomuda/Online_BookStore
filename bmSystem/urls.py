@@ -28,6 +28,7 @@ urlpatterns = [
     path('',myapp_views.home, name='home'),
     path('contacts/',myapp_views.contacts, name='contacts'),
     path('books/',myapp_views.books, name='books'),
+    path('litshelf/',myapp_views.litshelf, name='litshelf'),
 
 
     path('academic/', buy_books_views.academic, name='academic'),
@@ -48,8 +49,8 @@ urlpatterns = [
     path('log_help/', login_user.log_help, name='log_help'),
     path('log_profile/', login_user.log_profile, name='log_profile'),
 
-    path('u_help/', subscribed_user.u_help, name='u_help'),
-    path('sub_profile/', subscribed_user.sub_profile, name='profile'),
+    path('u_help/', subscribed_user.u_help, name='sub_help'),
+    path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
     path('sub_base/', subscribed_user.sub_base, name='sub_base'),
     path('sub_navbar/', subscribed_user.sub_navbar, name='sub_navbar'),
 

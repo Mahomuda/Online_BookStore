@@ -8,6 +8,8 @@ def books (request):
     return render(request, template_name='bmHome/books.html')
 def contacts(request):
     return render(request, template_name='bmHome/contacts.html')
+def litshelf(request):
+    return render(request, template_name='bmHome/litshelf.html')
 
 
 def academic(request):
@@ -50,8 +52,6 @@ def u_help(request):
     return render(request, template_name='subscribed_user/u_help.html')
 def sub_profile(request):
     return render(request, template_name='subscribed_user/sub_profile.html')
-def rented_books(request):
-    return render(request, template_name='subscribed_user/rented_books.html')
 def sub_navbar(request):
     return render(request, template_name='subscribed_user/sub_navbar.html')
 def sub_base(request):
