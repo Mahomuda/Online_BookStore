@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import *
 
 # Create your views here.
 
@@ -13,9 +14,19 @@ def litshelf(request):
 
 
 def academic(request):
-    return render(request, template_name='Buy_Books/academic.html')
+    all_books = Book.objects.all()
+    item = {
+        'all_books' : all_books,
+    }
+    return render(request, template_name='Buy_Books/academic.html', context= item)
+
 def fiction(request):
-    return render(request, template_name='Buy_Books/fiction.html')
+    all_books = Book.objects.all()
+    item = {
+        'all_books': all_books,
+    }
+    return render(request, template_name='Buy_Books/fiction.html', context= item)
+
 def novel(request):
     return render(request, template_name='Buy_Books/novel.html')
 def thriller(request):

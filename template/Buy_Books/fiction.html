@@ -2,145 +2,25 @@
 {% block content %}
 {% load static %}
 <div class="book-container">
-    <br />
-    <br />
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-        <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-</div>
-<br>
-<br>
-<div class="book-container">
-    <br />
-    <br />
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-        <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
+   <table class="table">
+      <thead>
+         <tr>
+            <th scope="col">Serial</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+         </tr>
+      </thead>
+      <tbody>
+         {% for p in all_books %}
+            {% if p.genre == 'fiction' %}
+               <tr>
+                  <td>{{ p.book_id }}</td>
+                  <td>{{ p.book_name }}</td>
+                  <td>{{ p.price }}</td>
+               </tr>
+            {% endif %}
+         {% endfor %}
+      </tbody>
+   </table>
 </div>
 {% endblock %}
