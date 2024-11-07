@@ -1,10 +1,19 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
 from .models import *
 
 # Create your views here.
 
 def home(request):
     return render(request, template_name='bmHome/home.html')
+def subscription(request):
+    # Perform some action here, e.g., checking subscription status
+    if request.method == 'POST':
+        # After processing, redirect to the sub_base view
+        return redirect(reverse('sub_base'))
+    return render(request, 'login_signup_subscription/subscription.html')
+
 def books (request):
     return render(request, template_name='bmHome/books.html')
 def contacts(request):

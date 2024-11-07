@@ -16,6 +16,9 @@ Including another URL conf
 """
 from django.contrib import admin
 from django.urls import path
+from . import settings
+from django.conf.urls.static import static
+
 from myapp import views as myapp_views
 from myapp import views as buy_books_views
 from myapp import views as login_signup_subscription
@@ -51,7 +54,7 @@ urlpatterns = [
 
     path('u_help/', subscribed_user.u_help, name='sub_help'),
     path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
-    path('sub_base/', subscribed_user.sub_base, name='sub_base'),
+    path('subscribed_user/sub_base/', subscribed_user.sub_base, name='sub_base'),
     path('sub_navbar/', subscribed_user.sub_navbar, name='sub_navbar'),
 
     path('r_academic/', rent_books.r_academic, name='r_academic'),
@@ -62,4 +65,7 @@ urlpatterns = [
 
 
 
-]
+]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+
+
