@@ -35,6 +35,8 @@ urlpatterns = [
 
 
     path('academic/', buy_books_views.academic, name='academic'),
+    path('Buy_Books/<int:book_id>',buy_books_views.books_details, name = 'books_details'),
+    path('upload_Books/', buy_books_views.upload_Books, name='upload_Books'),
     path('fiction/', buy_books_views.fiction, name='fiction'),
     path('novel/', buy_books_views.novel, name='novel'),
     path('thriller/', buy_books_views.thriller, name='thriller'),
@@ -49,6 +51,7 @@ urlpatterns = [
 
     path('log_base/', login_user.log_base, name='log_base'),
     path('log_navbar/', login_user.log_navbar, name='log_navbar'),
+    path('log_home/', login_user.log_home, name='log_home'),
     path('log_help/', login_user.log_help, name='log_help'),
     path('log_profile/', login_user.log_profile, name='log_profile'),
 

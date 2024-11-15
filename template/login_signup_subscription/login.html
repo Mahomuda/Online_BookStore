@@ -3,7 +3,6 @@
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="col-md-4">
-        <!-- Green colored box -->
         <div class="p-4 border rounded" style="background-color: #ced4da; border-width: 5px; border-color: #cccccc;">
             <form method="POST">
                 {% csrf_token %}
@@ -16,27 +15,33 @@
                     <label for="floatingPassword">Password</label>
                 </div>
 
-                <!-- Forgot Password -->
+                <!-- User Type Selection -->
+                <div class="form-floating mb-3">
+                    <select class="form-control" name="user_type" required>
+                        <option value="user">User</option>
+                        <option value="shop_owner">Shop Owner</option>
+                        <option value="rider">Rider</option>
+                    </select>
+                    <label for="user_type">Select User Type</label>
+                </div>
+
+                <!-- Display Messages -->
+                {% if messages %}
+                    <div>
+                        {% for message in messages %}
+                            <p style="color: red;">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Forgot Password and Sign Up Links -->
                 <div class="text-center mt-3">
                     <a href="{% url 'forget_pass' %}" class="text-light">Forgot Password?</a>
                 </div>
                 <br>
-
-                 <div>
-                    <a href="{% url 'log_base' %}" class="btn btn-primary w-100">Submit</a>
-                </div>
-                <br>
-
-                <!-- Sign In Button -->
-                <div>
-                    <a href="{% url 'signup' %}" class="btn btn-primary w-100">Sign Up</a>
-                </div>
-                <br>
-
-                <!-- Login with -->
-                <div class="text-center mt-3">
-                    <a href="{% url 'login_with' %}" class="text-light">Login with</a>
-                </div>
+                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <br><br>
+                <a href="{% url 'signup' %}" class="btn btn-secondary w-100">Sign Up</a>
             </form>
         </div>
     </div>
