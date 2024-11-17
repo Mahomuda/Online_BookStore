@@ -1,146 +1,35 @@
 {% extends "base.html" %}
-{% block content %}
 {% load static %}
-<div class="book-container">
-    <br />
-    <br />
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
 
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-        <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-</div>
-<br>
-<br>
+{% block content %}
+<h1>Academic Books</h1>
 <div class="book-container">
-    <br />
-    <br />
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
+    {% for p in all_books %}
+        {% if p.genre == 'thriller' %}
+            <div class="card" style="width: 18rem">
+                <img
+                    src="{{ p.image.url }}"
+                    class="card-img-top"
+                    alt="Book Image"
+                />
+                <div class="card-body">
+                    <p class="text-center card-text price-box">
+                       TK. {{ p.price }}
+                    </p>
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-outline-dark mt-auto" href="{% url 'books_details' p.book_id %}">
+                        Details
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>No academic books available.</p>
+    {% endfor %}
+    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent" style="color: white">
+         <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{% url 'upload_Books'%}">Add Books</a></div>
+     </div>
 
-    <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
-        <div class="card">
-        <img
-            src="{% static 'images/ab_1.jpg' %}"
-            class="card-img-top"
-            alt="..."
-        />
-        <div class="card-body">
-            <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-        </div>
-    </div>
 </div>
 {% endblock %}

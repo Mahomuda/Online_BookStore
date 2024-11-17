@@ -67,12 +67,24 @@ def fiction(request):
     return render(request, template_name='Buy_Books/fiction.html', context=item)
 
 def novel(request):
+    all_books = Book.objects.all()
+    item = {
+        'all_books': all_books,
+    }
     return render(request, template_name='Buy_Books/novel.html')
 
 def thriller(request):
+    all_books = Book.objects.all()
+    item = {
+        'all_books': all_books,
+    }
     return render(request, template_name='Buy_Books/thriller.html')
 
 def poetry(request):
+    all_books = Book.objects.all()
+    item = {
+        'all_books': all_books,
+    }
     return render(request, template_name='Buy_Books/poetry.html')
 
 def login(request):
