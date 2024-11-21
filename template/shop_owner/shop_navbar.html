@@ -7,7 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'log_profile' %}">Profile</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'shop_profile' %}">Profile</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -15,15 +15,18 @@
               Books
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a href="{% url 'log_book' %}?genre=academic">Academic</a></li>
-        <li><a href="{% url 'log_book' %}?genre=novel">Novels</a></li>
-        <li><a href="{% url 'log_book' %}?genre=fiction">Fiction</a></li>
-        <li><a href="{% url 'log_book' %}?genre=poetry">Poetry</a></li>
-        <li><a href="{% url 'log_book' %}?genre=thriller">Thriller</a></li>
+              <li><a href="{% url 'shop_books' %}?genre=academic">Academic</a></li>
+        <li><a href="{% url 'shop_books' %}?genre=novel">Novels</a></li>
+        <li><a href="{% url 'shop_books' %}?genre=fiction">Fiction</a></li>
+        <li><a href="{% url 'shop_books' %}?genre=poetry">Poetry</a></li>
+        <li><a href="{% url 'shop_books' %}?genre=thriller">Thriller</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'log_help' %}">Help</a>
+            <a class="nav-link" href="{% url 'shop_payment' %}">Payments</a>
+          </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'shop_help' %}">Issues</a>
           </li>
       </ul>
       <form class="d-flex">

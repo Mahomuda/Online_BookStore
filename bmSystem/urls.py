@@ -25,6 +25,7 @@ from myapp import views as login_signup_subscription
 from myapp import views as login_user
 from myapp import views as subscribed_user
 from myapp import views as rent_books
+from myapp import views as shop
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,10 +38,8 @@ urlpatterns = [
     path('academic/', buy_books_views.academic, name='academic'),
     path('Buy_Books/<int:book_id>',buy_books_views.books_details, name = 'books_details'),
     path('upload_Books/', buy_books_views.upload_Books, name='upload_Books'),
-    path('fiction/', buy_books_views.fiction, name='fiction'),
-    path('novel/', buy_books_views.novel, name='novel'),
-    path('thriller/', buy_books_views.thriller, name='thriller'),
-    path('poetry/', buy_books_views.poetry, name='poetry'),
+    path('books_details/<int:book_id>', buy_books_views.books_details, name='books_details'),
+
 
     path('login/', login_signup_subscription.login, name='login'),
     path('signup/', login_signup_subscription.signup, name='signup'),
@@ -51,7 +50,8 @@ urlpatterns = [
 
     path('log_base/', login_user.log_base, name='log_base'),
     path('log_navbar/', login_user.log_navbar, name='log_navbar'),
-    path('log_home/', login_user.log_home, name='log_home'),
+    path('log_book/', login_user.log_book, name='log_book'),
+    path('log_books_details/<int:book_id>', login_user.log_books_details, name='log_books_details'),
     path('log_help/', login_user.log_help, name='log_help'),
     path('log_profile/', login_user.log_profile, name='log_profile'),
 
@@ -66,7 +66,13 @@ urlpatterns = [
     path('r_thriller/', rent_books.r_thriller, name='r_thriller'),
     path('r_poetry/', rent_books.r_poetry, name='r_poetry'),
 
-
+    path('shop_base/', shop.shop_base, name='shop_base'),
+    path('shop_navbar/', shop.shop_navbar, name='shop_navbar'),
+    path('shop_book/', shop.shop_books, name='shop_books'),
+    #path('shop_books_details/<int:book_id>', shop.shop_books_details, name='log_books_details'),
+    path('shop_help/', shop.shop_help, name='shop_help'),
+    path('shop_profile/', shop.shop_profile, name='shop_profile'),
+    path('shop_payment/', shop.shop_payment, name='shop_payment'),
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
