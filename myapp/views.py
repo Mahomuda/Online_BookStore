@@ -81,14 +81,14 @@ def login(request):
         password = request.POST.get('password')
         user_type = request.POST.get('user_type')
 
-        # authenticate
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             # Optional: Check user type if your user model has it
             if hasattr(user, 'userprofile') and user.userprofile.user_type == user_type:
-                login(request, user)  # Only call login if user is authenticated
-                return redirect('log_home')  # Redirect to the home page or another page after login
+                auth_login(request, user)  # Use Django's built-in login
+                return redirect('log_home')  # Redirect after successful login
             else:
                 messages.error(request, "Incorrect user type selected.")
         else:
@@ -154,9 +154,9 @@ def log_book(request):
     return render(request, template_name='login_user/log_book.html', context=item)
 
 def log_books_details(request, book_id):
-    product = Book.objects.get(pk=book_id)
+    mybooks = Book.objects.get(pk=book_id)
     context = {
-        'product': product,
+        'mybooks': mybooks,
     }
     return render(request, template_name='Buy_Books/books_details.html', context=context)
 
@@ -224,3 +224,11 @@ def shop_profile(request):
 
 def shop_payment(request):
     return render(request, template_name='shop_owner/shop_payment.html')
+
+def shop_book_details(request,book_id):
+    allbooks = Book.objects.get(pk = book_id)
+    item = {
+        'allbooks':allbooks,
+    }
+    return render(request,template_name = 'shop_owner\shop_book_details.html',context = item)
+

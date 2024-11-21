@@ -4,9 +4,9 @@ body.landing-page {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: auto;
+    height: 100vh;
     margin: 0;
-
+    filter: none; /* No blur */
 }
 
 /* Blurred Background for Other Pages */
@@ -15,10 +15,10 @@ body.blur-page {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    height: auto;
+    height: 100vh;
     margin: 0;
-    position: relative;
-    overflow: hidden;
+    position: relative; /* Ensure positioning for pseudo-element */
+    overflow: hidden; /* Prevent scrollbars due to pseudo-element */
 }
 
 body.blur-page::before {
@@ -27,8 +27,8 @@ body.blur-page::before {
     top: 0;
     left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
     background: inherit;
-    filter: blur(7px);
-    z-index: -1;
+    filter: blur(7px); /* Extra blur if needed */
+    z-index: -1; /* Keeps the blur behind the content */
 }
