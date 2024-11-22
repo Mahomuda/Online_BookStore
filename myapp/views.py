@@ -175,3 +175,23 @@ def r_thriller(request):
 
 def r_poetry(request):
     return render(request, template_name='Rent_Books/r_poetry.html')
+
+def payment(request):
+    return render(request, template_name='login_signup_subscription/payment.html')
+
+def process_payment(request):
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        transaction_id = request.POST.get('transaction_id')
+        amount = request.POST.get('amount')
+
+        # Placeholder logic for payment validation
+        if phone and transaction_id and amount:
+            # Log or process payment
+            messages.success(request, "Payment processed successfully!")
+            return redirect('payment')  # Redirect back to the payment page or another relevant page
+        else:
+            messages.error(request, "Invalid payment details. Please try again.")
+            return redirect('payment')
+
+    return redirect('payment') 

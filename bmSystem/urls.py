@@ -48,6 +48,7 @@ urlpatterns = [
     path('forget_pass/', login_signup_subscription.forget_pass, name='forget_pass'),
     path('login_with/', login_signup_subscription.login_with, name='login_with'),
     path('payment/', login_signup_subscription.payment, name='payment'),
+    path('process-payment/', login_signup_subscription.process_payment, name='process_payment'),
 
     path('log_base/', login_user.log_base, name='log_base'),
     path('log_navbar/', login_user.log_navbar, name='log_navbar'),
@@ -68,7 +69,8 @@ urlpatterns = [
 
 
 
-]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 
