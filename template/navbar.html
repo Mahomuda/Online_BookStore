@@ -34,19 +34,11 @@
             Books
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="{% url 'novel' %}">Novel</a></li>
-            <li>
-              <a class="dropdown-item" href="{% url 'fiction' %}">Fiction</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="{% url 'poetry' %}">Poetry</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="{% url 'academic' %}">Academic</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="{% url 'thriller' %}">Thriller</a>
-            </li>
+           <li><a href="{% url 'books' %}?genre=academic">Academic</a></li>
+        <li><a href="{% url 'books' %}?genre=novel">Novels</a></li>
+        <li><a href="{% url 'books' %}?genre=fiction">Fiction</a></li>
+        <li><a href="{% url 'books' %}?genre=poetry">Poetry</a></li>
+        <li><a href="{% url 'books' %}?genre=thriller">Thriller</a></li>
           </ul>
         </li>
         <li class="nav-item">

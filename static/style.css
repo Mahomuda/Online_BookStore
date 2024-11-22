@@ -1,16 +1,34 @@
-body {
-    background-image: url('/static/image/background.jpg'); /* Specify the path to your image */
-    background-size: cover; /* Make sure the image covers the entire page */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    background-position: center; /* Center the image on the page */
-    height: 100vh; /* Set the height of the body to full screen */
-    margin: 0; /* Remove margin to make the image cover the whole page */
+/* Landing Page Background (No Blur) */
+body.landing-page {
+    background-image: url('/static/image/background image2.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    filter: none; /* No blur */
 }
 
-/* Style the content over the background */
-.content {
-    text-align: center;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin-top: 20%;
+/* Blurred Background for Other Pages */
+body.blur-page {
+    background-image: url('/static/image/background image2.png'); /* Same background image */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    margin: 0;
+    position: relative; /* Ensure positioning for pseudo-element */
+    overflow: hidden; /* Prevent scrollbars due to pseudo-element */
+}
+
+body.blur-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    filter: blur(7px); /* Extra blur if needed */
+    z-index: -1; /* Keeps the blur behind the content */
 }

@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block body_class %}blur-page{% endblock %}
+
+{% block content %}
 <div
     class="container d-flex justify-content-center align-items-center"
     style="min-height: 100vh"
@@ -11,8 +14,7 @@
                 style="
                     border-width: 2px;
                     border-color: #333;
-                    background-color: #fff;
-                "
+                    background-color: #fff;"
             >
                 <!-- Signup Form Fields -->
                 <div class="mb-3">

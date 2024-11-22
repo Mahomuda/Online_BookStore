@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% block body_class %}blur-page{% endblock %}
 
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="col-md-4">
-        <div class="p-4 border rounded" style="background-color: #ced4da; border-width: 5px; border-color: #cccccc;">
+        <div class="p-4 border rounded" style="background-color: #fff;">
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-floating mb-3">

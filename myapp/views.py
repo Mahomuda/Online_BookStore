@@ -1,3 +1,5 @@
+from lib2to3.fixes.fix_input import context
+
 from django.contrib.auth import authenticate, login as auth_login
 from django.db import IntegrityError
 from django.shortcuts import render, redirect
@@ -17,7 +19,25 @@ def subscription(request):
     return render(request, 'login_signup_subscription/subscription.html')
 
 def books(request):
-    return render(request, template_name='bmHome/books.html')
+    genre_filter = request.GET.get('genre', None)
+    if genre_filter:
+        all_books = Book.objects.filter(genre__iexact=genre_filter)
+    else:
+        all_books = Book.objects.all()
+
+    item = {
+        'all_books': all_books,
+        'genre': genre_filter,
+    }
+    return render(request, template_name='bmHome/books.html', context=item)
+
+def books_details(request, book_id):
+    product = Book.objects.get(pk=book_id)
+    context = {
+        'product': product,
+    }
+    return render(request, template_name='bmHome/books_details.html', context=context)
+
 
 def contacts(request):
     return render(request, template_name='bmHome/contacts.html')
@@ -32,12 +52,6 @@ def academic(request):
     }
     return render(request, template_name='Buy_Books/academic.html', context=item)
 
-def books_details(request, book_id):
-    product = Book.objects.get(pk=book_id)
-    context = {
-        'product': product,
-    }
-    return render(request, template_name='Buy_Books/books_details.html', context=context)
 
 def upload_Books(request):
     form = BooksForm()
@@ -59,21 +73,7 @@ def update_product(request, book_id):
     context = {'form': form}
     return render(request, template_name='Buy_Books/books_details.html', context=context)
 
-def fiction(request):
-    all_books = Book.objects.all()
-    item = {
-        'all_books': all_books,
-    }
-    return render(request, template_name='Buy_Books/fiction.html', context=item)
 
-def novel(request):
-    return render(request, template_name='Buy_Books/novel.html')
-
-def thriller(request):
-    return render(request, template_name='Buy_Books/thriller.html')
-
-def poetry(request):
-    return render(request, template_name='Buy_Books/poetry.html')
 
 def login(request):
     if request.method == 'POST':
@@ -81,14 +81,14 @@ def login(request):
         password = request.POST.get('password')
         user_type = request.POST.get('user_type')
 
-        # authenticate
+        # Authenticate the user
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             # Optional: Check user type if your user model has it
             if hasattr(user, 'userprofile') and user.userprofile.user_type == user_type:
-                login(request, user)  # Only call login if user is authenticated
-                return redirect('log_home')  # Redirect to the home page or another page after login
+                auth_login(request, user)  # Use Django's built-in login
+                return redirect('log_home')  # Redirect after successful login
             else:
                 messages.error(request, "Incorrect user type selected.")
         else:
@@ -140,8 +140,26 @@ def log_base(request):
 def log_navbar(request):
     return render(request, template_name='login_user/log_navbar.html')
 
-def log_home(request):
-    return render(request, template_name='login_user/log_home.html')
+def log_book(request):
+    genre_filter = request.GET.get('genre', None)
+    if genre_filter:
+        all_books = Book.objects.filter(genre__iexact=genre_filter)
+    else:
+        all_books = Book.objects.all()
+
+    item = {
+        'all_books': all_books,
+        'genre': genre_filter,
+    }
+    return render(request, template_name='login_user/log_book.html', context=item)
+
+def log_books_details(request, book_id):
+    mybooks = Book.objects.get(pk=book_id)
+    context = {
+        'mybooks': mybooks,
+    }
+    return render(request, template_name='Buy_Books/books_details.html', context=context)
+
 
 def log_help(request):
     return render(request, template_name='login_user/log_help.html')
@@ -175,6 +193,45 @@ def r_thriller(request):
 
 def r_poetry(request):
     return render(request, template_name='Rent_Books/r_poetry.html')
+
+
+def shop_base(request):
+    return render(request, template_name='shop_owner/shop_base.html')
+
+def shop_navbar(request):
+    return render(request, template_name='shop_owner/shop_navbar.html')
+
+def shop_books(request):
+    genre_filter = request.GET.get('genre', None)
+    if genre_filter:
+        all_books = Book.objects.filter(genre__iexact=genre_filter)
+    else:
+        all_books = Book.objects.all()
+
+    item = {
+        'all_books': all_books,
+        'genre': genre_filter,
+    }
+    return render(request, template_name='shop_owner/shop_books.html', context=item)
+
+
+
+def shop_help(request):
+    return render(request, template_name='shop_owner/shop_help.html')
+
+def shop_profile(request):
+    return render(request, template_name='shop_owner/shop_profile.html')
+
+def shop_payment(request):
+    return render(request, template_name='shop_owner/shop_payment.html')
+
+def shop_book_details(request,book_id):
+    allbooks = Book.objects.get(pk = book_id)
+    item = {
+        'allbooks':allbooks,
+    }
+    return render(request,template_name = 'shop_owner\shop_book_details.html',context = item)
+
 
 def payment(request):
     return render(request, template_name='login_signup_subscription/payment.html')

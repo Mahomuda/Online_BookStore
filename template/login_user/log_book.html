@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "login_user/log_base.html" %}
 {% block body_class %}blur-page{% endblock %}
 
 {% block content %}
@@ -11,11 +11,10 @@
                 <p class="text-center card-text price-box">TK. {{ p.price }}</p>
             </div>
             <div class="text-center">
-                <a class="btn btn-outline-dark mt-auto" href="{% url 'books_details' p.book_id %}">Details</a>
+                <a class="btn btn-outline-dark mt-auto" href="{% url 'log_books_details' p.book_id %}">Details</a>
             </div>
         </div>
     {% empty %}
         <p>No books available in this genre.</p>
     {% endfor %}
-</div>
-{% endblock %}
+</div>{% endblock %}

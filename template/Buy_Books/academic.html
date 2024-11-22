@@ -1,12 +1,13 @@
-{% extends "base.html" %}
+
 {% load static %}
+{% block body_class %}blur-page{% endblock %}
 
 {% block content %}
 <h1>Academic Books</h1>
 <div class="book-container">
     {% for p in all_books %}
         {% if p.genre == 'academic' %}
-            <div class="card">
+            <div class="card" style="width: 18rem">
                 <img
                     src="{{ p.image.url }}"
                     class="card-img-top"
