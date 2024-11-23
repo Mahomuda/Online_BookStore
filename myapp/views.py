@@ -32,9 +32,9 @@ def books(request):
     return render(request, template_name='bmHome/books.html', context=item)
 
 def books_details(request, book_id):
-    product = Book.objects.get(pk=book_id)
+    allbooks = Book.objects.get(pk=book_id)
     context = {
-        'product': product,
+        'allbooks': allbooks,
     }
     return render(request, template_name='bmHome/books_details.html', context=context)
 
@@ -142,32 +142,49 @@ def log_book(request):
         'genre': genre_filter,
     }
     return render(request, template_name='login_user/log_book.html', context=item)
-
 def log_books_details(request, book_id):
     allbooks = Book.objects.get(pk=book_id)
     context = {
         'allbooks': allbooks,
     }
     return render(request, template_name='login_user/log_books_details.html', context=context)
-
-
 def log_help(request):
     return render(request, template_name='login_user/log_help.html')
 
 def log_profile(request):
     return render(request, template_name='login_user/log_profile.html')
 
-def u_help(request):
-    return render(request, template_name='subscribed_user/u_help.html')
 
+def sub_help(request):
+    return render(request, template_name='subscribed_user/sub_help.html')
 def sub_profile(request):
     return render(request, template_name='subscribed_user/sub_profile.html')
-
 def sub_navbar(request):
     return render(request, template_name='subscribed_user/sub_navbar.html')
-
 def sub_base(request):
     return render(request, template_name='subscribed_user/sub_base.html')
+def sub_books(request):
+    allbooks = Book.objects.all()
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, template_name='subscribed_user/sub_books.html',context=item)
+
+def sub_rent_books(request):
+    allbooks = Book.objects.filter(rentable= 'yes')
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, 'subscribed_user/sub_rent_books.html', context= item)
+
+def sub_books_details(request,book_id):
+    allbooks = Book.objects.get(pk=book_id)
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
+
+
 
 def r_academic(request):
     return render(request, template_name='rent_Books/r_academic.html')
@@ -242,6 +259,10 @@ def update_books(request, book_id):
     context = {'form': form}
     return render(request, template_name='shop_owner/books_form.html',context=context)
 
-
-
+def delete_books(request,book_id):
+   allbooks = Book.objects.get(pk=book_id)
+   if request.method == 'POST':
+       allbooks.delete()
+       return redirect('home')
+   return render(request, template_name = 'shop_owner\delete_books.html')
 

@@ -1,11 +1,11 @@
-{% extends "shop_owner/shop_base.html" %}
+{% extends "subscribed_user/sub_base.html" %}
 {% block body_class %}blur-page{% endblock %}
 
 {% load static %}
 
 {% block content %}
 <div class="book-container">
-    <div class="card" style="width: 25rem">
+    <div class="card" style="width: 20rem">
         <h2>Name = {{allbooks.book_name}}</h2>
 
         <img src= {{allbooks.image.url }}>
@@ -18,11 +18,6 @@
             <br />
             Availability = {{allbooks.availability}}
         </p>
-           <a class="btn btn-outline-dark mt-auto" href="{% url 'update_books' allbooks.book_id %}">Update</a>
-
-           <a class="btn btn-outline-dark mt-auto" href="{% url 'delete_books' allbooks.book_id %}">Delete</a>
-
     </div>
 </div>
-
 {% endblock %}

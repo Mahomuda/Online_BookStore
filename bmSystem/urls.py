@@ -50,10 +50,13 @@ urlpatterns = [
     path('log_help/', login_user.log_help, name='log_help'),
     path('log_profile/', login_user.log_profile, name='log_profile'),
 
-    path('u_help/', subscribed_user.u_help, name='sub_help'),
     path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
     path('subscribed_user/sub_base/', subscribed_user.sub_base, name='sub_base'),
     path('sub_navbar/', subscribed_user.sub_navbar, name='sub_navbar'),
+    path('sub_books/', subscribed_user.sub_books, name='sub_books'),
+    path('sub_rent_books/', subscribed_user.sub_rent_books, name='sub_rent_books'),
+    path('sub_books_details/<int:book_id>', subscribed_user.sub_books_details, name='sub_books_details'),
+    path('sub_help/', subscribed_user.sub_help, name='sub_help'),
 
     path('r_academic/', rent_books.r_academic, name='r_academic'),
     path('r_fiction/', rent_books.r_fiction, name='r_fiction'),
@@ -70,8 +73,11 @@ urlpatterns = [
     path('shop_payment/', shop.shop_payment, name='shop_payment'),
     path('upload_books/', shop.upload_books, name='upload_books'),
     path('update_books/<int:book_id>', shop.update_books, name='update_books'),
+    path('delete_books/<int:book_id>',shop.delete_books,name = 'delete_books')
 
-]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 

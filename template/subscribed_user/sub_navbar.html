@@ -11,36 +11,16 @@
           <a class="nav-link active" aria-current="page" href="{% url 'sub_profile' %}">Profile</a>
         </li>
 
-        <!-- Main Dropdown for Books -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Books
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <!-- Nested Dropdown for Buy Books -->
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" >Buy Books</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'novel' %}">Novel</a></li>
-                <li><a class="dropdown-item" href="{% url 'fiction' %}">Fiction</a></li>
-                <li><a class="dropdown-item" href="{% url 'poetry' %}">Poetry</a></li>
-                <li><a class="dropdown-item" href="{% url 'academic' %}">Academic</a></li>
-                <li><a class="dropdown-item" href="{% url 'thriller' %}">Thriller</a></li>
-              </ul>
-            </li>
-            <!-- Nested Dropdown for Rent Books -->
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" >Rent Books</a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{% url 'r_novel' %}">Novel</a></li>
-                <li><a class="dropdown-item" href="{% url 'r_fiction' %}">Fiction</a></li>
-                <li><a class="dropdown-item" href="{% url 'r_poetry' %}">Poetry</a></li>
-                <li><a class="dropdown-item" href="{% url 'r_academic' %}">Academic</a></li>
-                <li><a class="dropdown-item" href="{% url 'r_thriller' %}">Thriller</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+       <!-- Main Dropdown for Books -->
+  <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Books
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a href="{% url 'sub_books' %}">Buy Books</a></li>
+              <li><a href="{% url 'sub_rent_books' %}?">Rent Books</a></li>
+            </ul>
+  </li>
 
         <!-- Help Link -->
         <li class="nav-item">

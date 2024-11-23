@@ -1,10 +1,21 @@
 {% extends "login_user/log_base.html" %}
 {% block body_class %}blur-page{% endblock %}
 
-{% load static %}
-
 {% block content %}
-  {{allbooks.name}}
-  {{allbooks.price}}
+<div class="book-container">
+    <div class="card" style="width: 25rem">
+        <h2>Name = {{allbooks.book_name}}</h2>
 
+        <img src="{{ allbooks.image.url}}" >
+        <p style="font-size: 1.5rem;">
+            Price = {{allbooks.price}}
+            <br />
+            Review = {{allbooks.review}}
+            <br />
+            Description = {{allbooks.description}}
+            <br />
+            Availability = {{allbooks.availability}}
+        </p>
+    </div>
+</div>
 {% endblock %}
