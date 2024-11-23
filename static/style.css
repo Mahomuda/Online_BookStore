@@ -36,3 +36,4 @@ body.blur-page::before {
     filter: blur(7px);
     z-index: -1;
 }
+

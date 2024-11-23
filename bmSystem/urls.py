@@ -58,12 +58,6 @@ urlpatterns = [
     path('sub_books_details/<int:book_id>', subscribed_user.sub_books_details, name='sub_books_details'),
     path('sub_help/', subscribed_user.sub_help, name='sub_help'),
 
-    path('r_academic/', rent_books.r_academic, name='r_academic'),
-    path('r_fiction/', rent_books.r_fiction, name='r_fiction'),
-    path('r_novel/', rent_books.r_novel, name='r_novel'),
-    path('r_thriller/', rent_books.r_thriller, name='r_thriller'),
-    path('r_poetry/', rent_books.r_poetry, name='r_poetry'),
-
     path('shop_base/', shop.shop_base, name='shop_base'),
     path('shop_navbar/', shop.shop_navbar, name='shop_navbar'),
     path('shop_book/', shop.shop_books, name='shop_books'),

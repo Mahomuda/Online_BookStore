@@ -109,7 +109,6 @@
     <p class="payment-description">Securely pay through bKash by providing the details below:</p>
     <form class="bkash-form" action="{% url 'process_payment' %}" method="POST">
         {% csrf_token %}
-<<<<<<< HEAD
 
         <div class="form-group">
             <label for="phone">bKash Number:</label>
@@ -119,9 +118,7 @@
                 name="phone"
                 placeholder="01XXXXXXXXX"
                 required
-                pattern="[0-9]{11}"
-=======
-        
+                pattern="[0-9]{11}"/>
         <div class="form-group">
             <label for="phone">bKash Number:</label>
             <input 
@@ -130,36 +127,31 @@
                 name="phone" 
                 placeholder="01XXXXXXXXX" 
                 required 
-                pattern="[0-9]{11}" 
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663
+                pattern="[0-9]{11}"
                 title="Please enter a valid 11-digit phone number."
             />
         </div>
 
         <div class="form-group">
             <label for="transaction-id">Transaction ID:</label>
-<<<<<<< HEAD
             <input
                 type="text"
                 id="transaction-id"
                 name="transaction_id"
                 placeholder="Enter Transaction ID"
-                required
-=======
+                required/>
             <input 
                 type="text" 
                 id="transaction-id" 
                 name="transaction_id" 
                 placeholder="Enter Transaction ID" 
-                required 
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663
+                required
                 maxlength="20"
             />
         </div>
 
         <div class="form-group">
             <label for="amount">Amount (BDT):</label>
-<<<<<<< HEAD
             <input
                 type="number"
                 id="amount"
@@ -167,8 +159,7 @@
                 placeholder="Enter Amount"
                 required
                 min="1"
-                step="0.01"
-=======
+                step="0.01"/>
             <input 
                 type="number" 
                 id="amount" 
@@ -176,45 +167,22 @@
                 placeholder="Enter Amount" 
                 required 
                 min="1" 
-                step="0.01" 
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663
-            />
+                step="0.01"/>
         </div>
 
         <!-- Terms and conditions checkbox -->
         <div class="terms-container">
-<<<<<<< HEAD
-            <input
-                type="checkbox"
-                id="agree-terms"
-                name="agree_terms"
-=======
             <input 
                 type="checkbox" 
                 id="agree-terms" 
-                name="agree_terms" 
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663
-                required
-            />
+                name="agree_terms"/>
             <label for="agree-terms">I agree to the <a href="#" style="color: #fff;">terms and conditions</a>.</label>
         </div>
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663
-        <!-- Proceed and Close buttons side by side -->
-       <!-- Proceed and Close buttons side by side with equal sizes -->
 <div class="button-container" style="display: flex; justify-content: space-between; gap: 10px;">
     <button type="submit" class="submit-btn" style="flex: 1; width: 48%;">Proceed</button>
     <button type="button" class="submit-btn" onclick="window.location.href='/subscription';" style="flex: 1; width: 48%;">Close</button>
 </div>
-
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663
 
     {% if messages %}
     <div class="messages">
@@ -224,8 +192,4 @@
     </div>
     {% endif %}
 </div>
-<<<<<<< HEAD
 {% endblock %}
-=======
-{% endblock %}
->>>>>>> e0751204c785ee680f527106cdb3dfde63565663

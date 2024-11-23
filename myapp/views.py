@@ -184,24 +184,6 @@ def sub_books_details(request,book_id):
     }
     return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
 
-
-
-def r_academic(request):
-    return render(request, template_name='rent_Books/r_academic.html')
-
-def r_fiction(request):
-    return render(request, template_name='Rent_Books/r_fiction.html')
-
-def r_novel(request):
-    return render(request, template_name='Rent_Books/r_novel.html')
-
-def r_thriller(request):
-    return render(request, template_name='Rent_Books/r_thriller.html')
-
-def r_poetry(request):
-    return render(request, template_name='Rent_Books/r_poetry.html')
-
-
 def shop_base(request):
     return render(request, template_name='shop_owner/shop_base.html')
 
