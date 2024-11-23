@@ -20,7 +20,6 @@ from . import settings
 from django.conf.urls.static import static
 
 from myapp import views as myapp_views
-from myapp import views as buy_books_views
 from myapp import views as login_signup_subscription
 from myapp import views as login_user
 from myapp import views as subscribed_user
