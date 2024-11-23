@@ -3,21 +3,49 @@
 
 {% load static %}
 
-{% block content %}
-<div class="book-container">
-    <div class="card" style="width: 20rem">
-        <h2>Name = {{allbooks.book_name}}</h2>
 
-        <img src= {{allbooks.image.url }}>
-        <p style="font-size: 1.5rem;">
-            Price = {{allbooks.price}}
-            <br />
-            Review = {{allbooks.review}}
-            <br />
-            Description = {{allbooks.description}}
-            <br />
-            Availability = {{allbooks.availability}}
-        </p>
-    </div>
+{% block content %}
+<div class="container mt-5">
+
+    <ul class="list-group">
+        <li class="list-group-item">
+    <div class="card" style="width: 10rem">
+
+        <img src= {{allbooks.image.url }}></div>
+
+    <h2 class="mb-4">{{ allbooks.book_name }}</h2>
+
+            <strong>Price:</strong> TK. {{ allbooks.price }}
+        </li>
+        <li class="list-group-item">
+            <strong>Genre:</strong> {{ allbooks.genre|default:"Not specified" }}
+        </li>
+        <li class="list-group-item">
+            <strong>Description:</strong> {{ allbooks.description|default:"No description available." }}
+        </li>
+        <li class="list-group-item">
+            <strong>Availability:</strong>
+            {% if allbooks.stock_quantity > 0 %}
+                Available
+            {% else %}
+                Out of Stock
+            {% endif %}
+        </li>
+    </ul>
+
+</div>
+<div class="container mt-1">
+    {% if allbooks.stock_quantity > 0 %}
+        <form action="{% url 'purchase_book' product.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success mt-4">
+                Buy Now for TK. {{ allbooks.price }}
+            </button>
+        </form>
+    {% else %}
+        <button class="btn btn-danger mt-4" disabled>
+            Out of Stock
+        </button>
+    {% endif %}
 </div>
 {% endblock %}
