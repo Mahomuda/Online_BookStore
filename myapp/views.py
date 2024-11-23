@@ -45,35 +45,6 @@ def contacts(request):
 def litshelf(request):
     return render(request, template_name='bmHome/litshelf.html')
 
-def academic(request):
-    all_books = Book.objects.all()
-    item = {
-        'all_books': all_books,
-    }
-    return render(request, template_name='Buy_Books/academic.html', context=item)
-
-
-def upload_Books(request):
-    form = BooksForm()
-    if request.method == 'POST':
-        form = BooksForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    context = {'form': form}
-    return render(request, template_name='Buy_Books/books_forms.html', context=context)
-
-def update_product(request, book_id):
-    books = Book.objects.get(pk=book_id)
-    form = BooksForm(instance=books)
-    if request.method == 'POST':
-        form = BooksForm(request.POST, request.FILES, instance=books)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {'form': form}
-    return render(request, template_name='Buy_Books/books_details.html', context=context)
-
-
 
 def login(request):
     if request.method == 'POST':
@@ -134,6 +105,25 @@ def login_with(request):
 def payment(request):
     return render(request, template_name='login_signup_subscription/payment.html')
 
+def process_payment(request):
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        transaction_id = request.POST.get('transaction_id')
+        amount = request.POST.get('amount')
+
+        # Placeholder logic for payment validation
+        if phone and transaction_id and amount:
+            # Log or process payment
+            messages.success(request, "Payment processed successfully!")
+            return redirect('payment')  # Redirect back to the payment page or another relevant page
+        else:
+            messages.error(request, "Invalid payment details. Please try again.")
+            return redirect('payment')
+
+    return redirect('payment')
+
+
+
 def log_base(request):
     return render(request, template_name='login_user/log_base.html')
 
@@ -154,11 +144,11 @@ def log_book(request):
     return render(request, template_name='login_user/log_book.html', context=item)
 
 def log_books_details(request, book_id):
-    mybooks = Book.objects.get(pk=book_id)
+    allbooks = Book.objects.get(pk=book_id)
     context = {
-        'mybooks': mybooks,
+        'allbooks': allbooks,
     }
-    return render(request, template_name='Buy_Books/books_details.html', context=context)
+    return render(request, template_name='login_user/log_books_details.html', context=context)
 
 
 def log_help(request):
@@ -230,5 +220,28 @@ def shop_book_details(request,book_id):
     item = {
         'allbooks':allbooks,
     }
-    return render(request,template_name = 'shop_owner\shop_book_details.html',context = item)
+    return render(request,template_name = 'shop_owner/shop_book_details.html',context = item)
+
+def upload_books(request):
+    form = BooksForm()
+    if request.method == 'POST':
+        form = BooksForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+    return render(request, template_name='shop_owner/books_form.html', context=context)
+
+def update_books(request, book_id):
+    allbooks = Book.objects.get(pk=book_id)
+    form = BooksForm (instance=allbooks)
+    if request.method == 'POST':
+        form = BooksForm(request.POST, request.FILES, instance=books)
+        if form.is_valid():
+            form.save()
+            return redirect('shop_books')
+    context = {'form': form}
+    return render(request, template_name='shop_owner/books_form.html',context=context)
+
+
+
 

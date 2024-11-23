@@ -33,12 +33,7 @@ urlpatterns = [
     path('contacts/',myapp_views.contacts, name='contacts'),
     path('books/',myapp_views.books, name='books'),
     path('',myapp_views.litshelf, name='litshelf'),
-
-
-    path('academic/', buy_books_views.academic, name='academic'),
-    path('Buy_Books/<int:book_id>',buy_books_views.books_details, name = 'books_details'),
-    path('upload_Books/', buy_books_views.upload_Books, name='upload_Books'),
-    path('books_details/<int:book_id>', buy_books_views.books_details, name='books_details'),
+    path('books_details/<int:book_id>', myapp_views.books_details, name='books_details'),
 
 
     path('login/', login_signup_subscription.login, name='login'),
@@ -47,6 +42,7 @@ urlpatterns = [
     path('forget_pass/', login_signup_subscription.forget_pass, name='forget_pass'),
     path('login_with/', login_signup_subscription.login_with, name='login_with'),
     path('payment/', login_signup_subscription.payment, name='payment'),
+    path('process-payment/', login_signup_subscription.process_payment, name='process_payment'),
 
     path('log_base/', login_user.log_base, name='log_base'),
     path('log_navbar/', login_user.log_navbar, name='log_navbar'),
@@ -73,6 +69,8 @@ urlpatterns = [
     path('shop_help/', shop.shop_help, name='shop_help'),
     path('shop_profile/', shop.shop_profile, name='shop_profile'),
     path('shop_payment/', shop.shop_payment, name='shop_payment'),
+    path('upload_books/', shop.upload_books, name='upload_books'),
+    path('update_books/<int:book_id>', shop.update_books, name='update_books'),
 
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 
