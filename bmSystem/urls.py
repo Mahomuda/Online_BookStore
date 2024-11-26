@@ -23,7 +23,6 @@ from myapp import views as myapp_views
 from myapp import views as login_signup_subscription
 from myapp import views as login_user
 from myapp import views as subscribed_user
-from myapp import views as rent_books
 from myapp import views as shop
 
 urlpatterns = [
@@ -39,7 +38,6 @@ urlpatterns = [
     path('signup/', login_signup_subscription.signup, name='signup'),
     path('subscription/', login_signup_subscription.subscription, name='subscription'),
     path('forget_pass/', login_signup_subscription.forget_pass, name='forget_pass'),
-    path('login_with/', login_signup_subscription.login_with, name='login_with'),
     path('payment/', login_signup_subscription.payment, name='payment'),
     path('process-payment/', login_signup_subscription.process_payment, name='process_payment'),
 

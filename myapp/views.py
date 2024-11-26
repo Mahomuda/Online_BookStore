@@ -1,12 +1,11 @@
-from lib2to3.fixes.fix_input import context
-
-from django.contrib.auth import authenticate, login as auth_login
-from django.db import IntegrityError
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from .Books_Forms import BooksForm
+from .form import SignupForm, loginForm
 from .models import *
+from django.contrib.auth import authenticate,login
 
 # Create your views here.
 
@@ -45,62 +44,48 @@ def contacts(request):
 def litshelf(request):
     return render(request, template_name='bmHome/litshelf.html')
 
+def signup(request):
+   msg = None
+   if request.method == 'POST':
+       form = SignupForm(request.POST)
+       if form.is_valid():
+           user= form.save()
+           msg = 'user created'
+           return redirect('login')
+       else:
+           msg = 'Username already exists or Password is not valid (Password will have 8 characters and it will be unique)'
+   else:
+       form = SignupForm()
+   context = {
+       'form':form,
+       'msg': msg
+   }
+   return render(request, template_name='login_signup_subscription/signup.html',context=context)
+
 
 def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user_type = request.POST.get('user_type')
-
-        # Authenticate the user
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            # Optional: Check user type if your user model has it
-            if hasattr(user, 'userprofile') and user.userprofile.user_type == user_type:
-                auth_login(request, user)  # Use Django's built-in login
-                return redirect('log_home')  # Redirect after successful login
-            else:
-                messages.error(request, "Incorrect user type selected.")
-        else:
-            messages.error(request, "Invalid username or password.")
-
-    return render(request, 'login_signup_subscription/login.html')
-
-def signup(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-
-        # Check if passwords match
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match.")
-            return redirect('signup')
-
-        # Create new user
-        try:
-            user = User.objects.create_user(
-                username=username,  # Ensure email is set as username
-                email=email
-            )
-            user.set_password(password)
-            user.save()
-            messages.success(request, "Account created successfully! Please log in.")
-            return redirect('login')  # Redirect to login page after successful signup
-        except IntegrityError:
-            messages.error(request, "An account with this email already exists.")
-            return redirect('signup')
-
-    return render(request, 'login_signup_subscription/signup.html')
+   form = loginForm(request.POST or None)
+   msg = None
+   if request.method == "POST" and form.is_valid():
+       username = form.cleaned_data.get('username')
+       password = form.cleaned_data.get('password')
+       user = authenticate(username = username, password = password)
+       if user is not None and user.is_shopowner:
+           return redirect('shop_profile')
+       elif user is not None and user.is_user:
+           return redirect('log_profile')
+       else:
+           msg = 'invalid credentials'
+   else:
+       msg = 'error validating form'
+   context = {
+       'form' : form,
+       'msg' : msg
+   }
+   return render(request, template_name='login_signup_subscription/login.html', context=context)
 
 def forget_pass(request):
     return render(request, template_name='login_signup_subscription/forget_pass.html')
-
-def login_with(request):
-    return render(request, template_name='login_signup_subscription/login_with.html')
 
 def payment(request):
     return render(request, template_name='login_signup_subscription/payment.html')
@@ -152,8 +137,16 @@ def log_help(request):
     return render(request, template_name='login_user/log_help.html')
 
 def log_profile(request):
-    return render(request, template_name='login_user/log_profile.html')
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login/')  # Redirect to login page if not logged in
 
+    userdetails = request.user  # Should get the details of the logged-in user
+    context = {
+        'userdetails': userdetails,
+    }
+
+    return render(request, 'login_user/log_profile.html', context)
 
 def sub_help(request):
     return render(request, template_name='subscribed_user/sub_help.html')

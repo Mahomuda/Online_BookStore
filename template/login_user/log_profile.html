@@ -2,7 +2,15 @@
 {% block body_class %}blur-page{% endblock %}
 
 {% block content %}
-<h1>
-    profile
-</h1>
+<div class="container mt-5">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <div class="card" style="width: 18rem;">
+                <h2 class="mb-4">{{ userdetails.username }}</h2>
+                <p>Email: {{ userdetails.email }}</p>
+
+            </div>
+        </li>
+    </ul>
+</div>
 {% endblock %}

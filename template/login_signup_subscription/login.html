@@ -2,49 +2,31 @@
 {% block body_class %}blur-page{% endblock %}
 
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="col-md-4">
-        <div class="p-4 border rounded" style="background-color: #fff;">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingUserName" name="username" placeholder="User Name" required>
-                    <label for="floatingUserName">User Name</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required>
-                    <label for="floatingPassword">Password</label>
-                </div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow" style="width: 400px;">
+        <h1 class="text-center mb-4">Login</h1>
 
-                <!-- User Type Selection -->
-                <div class="form-floating mb-3">
-                    <select class="form-control" name="user_type" required>
-                        <option value="user">User</option>
-                        <option value="shop_owner">Shop Owner</option>
-                        <option value="rider">Rider</option>
-                    </select>
-                    <label for="user_type">Select User Type</label>
-                </div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="username" class="form-label">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group mb-3">
+                <label for="password" class="form-label">Password</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block w-100">Submit</button>
+        </form>
 
-                <!-- Display Messages -->
-                {% if messages %}
-                    <div>
-                        {% for message in messages %}
-                            <p style="color: red;">{{ message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+        <p class="text-center mt-3">
+            Don't have an account? <a href="{% url 'signup' %}" class="text-decoration-none">Signup</a>
+        </p>
 
-                <!-- Forgot Password and Sign Up Links -->
-                <div class="text-center mt-3">
-                    <a href="{% url 'forget_pass' %}" class="text-light">Forgot Password?</a>
-                </div>
-                <br>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
-                <br><br>
-                <a href="{% url 'signup' %}" class="btn btn-secondary w-100">Sign Up</a>
-            </form>
-        </div>
+        <!-- Forgot Password Link -->
+        <p class="text-center mt-3">
+            <a href="{% url 'forget_pass' %}" class="text-decoration-none">Forgot Password?</a>
+        </p>
     </div>
 </div>
 {% endblock %}
