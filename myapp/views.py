@@ -5,7 +5,7 @@ from django.contrib import messages
 from .Books_Forms import BooksForm
 from .form import SignupForm, loginForm
 from .models import *
-<<<<<<< HEAD
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Book, Order
@@ -13,9 +13,9 @@ from django.template.loader import get_template
 from django.shortcuts import render, get_object_or_404
 
 
-=======
+
 from django.contrib.auth import authenticate,login
->>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
+
 
 # Create your views here.
 
@@ -143,7 +143,7 @@ def log_books_details(request, book_id):
         'allbooks': allbooks,
     }
     return render(request, template_name='login_user/log_books_details.html', context=context)
-<<<<<<< HEAD
+
 
 @login_required
 def purchase_book(request, book_id):
@@ -207,8 +207,8 @@ def payment_confirmation(request, book_id):
     return render(request, 'login_user/payment_confirmation.html', {'book': book})
 
 
-=======
->>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
+
+
 def log_help(request):
     return render(request, template_name='login_user/log_help.html')
 
@@ -239,8 +239,7 @@ def sub_books(request):
     }
     return render(request, template_name='subscribed_user/sub_books.html',context=item)
 
-<<<<<<< HEAD
-=======
+
 def sub_rent_books(request):
     allbooks = Book.objects.filter(rentable= 'yes')
     item = {
@@ -254,7 +253,7 @@ def sub_books_details(request,book_id):
         'allbooks': allbooks,
     }
     return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
->>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
+
 
 def shop_base(request):
     return render(request, template_name='shop_owner/shop_base.html')
@@ -320,13 +319,13 @@ def delete_books(request,book_id):
        return redirect('home')
    return render(request, template_name = 'shop_owner\delete_books.html')
 
-<<<<<<< HEAD
-    return redirect('payment') 
+
+   return redirect('payment') 
 
 
 
 def view_sub_profile(request, user_id):
     sub_profile = get_object_or_404(SubProfile, user_id=user_id)
     return render(request, 'sub_profile.html', {'sub_profile': sub_profile})
-=======
->>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
+
+
