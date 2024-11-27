@@ -138,11 +138,12 @@ def log_book(request):
     }
     return render(request, template_name='login_user/log_book.html', context=item)
 def log_books_details(request, book_id):
-    allbooks = Book.objects.get(pk=book_id)
+    allbooks = Book.objects.get(id=book_id)
     context = {
         'allbooks': allbooks,
     }
-    return render(request, template_name='login_user/log_books_details.html', context=context)
+    return render(request, 'login_user/log_books_details.html', context)
+
 
 
 @login_required
