@@ -21,11 +21,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from myapp import views as myapp_views
-from myapp import views as buy_books_views
 from myapp import views as login_signup_subscription
 from myapp import views as login_user
 from myapp import views as subscribed_user
-from myapp import views as rent_books
 from myapp import views as shop
 from myapp import views
 
@@ -37,6 +35,7 @@ urlpatterns = [
     path('contacts/',myapp_views.contacts, name='contacts'),
     path('books/',myapp_views.books, name='books'),
     path('',myapp_views.litshelf, name='litshelf'),
+<<<<<<< HEAD
     path('books/<int:book_id>/', views.books_details, name='books_details'), 
 
 
@@ -44,13 +43,15 @@ urlpatterns = [
     #path('Buy_Books/<int:book_id>',buy_books_views.books_details, name = 'books_details'),
     #path('upload_Books/', buy_books_views.upload_Books, name='upload_Books'),
     #path('books_details/<int:book_id>', buy_books_views.books_details, name='books_details'),
+=======
+    path('books_details/<int:book_id>', myapp_views.books_details, name='books_details'),
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
 
 
     path('login/', login_signup_subscription.login, name='login'),
     path('signup/', login_signup_subscription.signup, name='signup'),
     path('subscription/', login_signup_subscription.subscription, name='subscription'),
     path('forget_pass/', login_signup_subscription.forget_pass, name='forget_pass'),
-    path('login_with/', login_signup_subscription.login_with, name='login_with'),
     path('payment/', login_signup_subscription.payment, name='payment'),
     path('process-payment/', login_signup_subscription.process_payment, name='process_payment'),
 
@@ -67,11 +68,17 @@ urlpatterns = [
     
 
 
-    path('u_help/', subscribed_user.u_help, name='sub_help'),
     path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
     path('subscribed_user/sub_base/', subscribed_user.sub_base, name='sub_base'),
     path('sub_navbar/', subscribed_user.sub_navbar, name='sub_navbar'),
+<<<<<<< HEAD
      
+=======
+    path('sub_books/', subscribed_user.sub_books, name='sub_books'),
+    path('sub_rent_books/', subscribed_user.sub_rent_books, name='sub_rent_books'),
+    path('sub_books_details/<int:book_id>', subscribed_user.sub_books_details, name='sub_books_details'),
+    path('sub_help/', subscribed_user.sub_help, name='sub_help'),
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
 
     path('shop_base/', shop.shop_base, name='shop_base'),
     path('shop_navbar/', shop.shop_navbar, name='shop_navbar'),
@@ -80,6 +87,7 @@ urlpatterns = [
     path('shop_help/', shop.shop_help, name='shop_help'),
     path('shop_profile/', shop.shop_profile, name='shop_profile'),
     path('shop_payment/', shop.shop_payment, name='shop_payment'),
+<<<<<<< HEAD
    
    
     path('sub_profile/<int:user_id>/', views.view_sub_profile, name='view_sub_profile'),
@@ -87,6 +95,12 @@ urlpatterns = [
    
      # Purchase and Checkout paths
     
+=======
+    path('upload_books/', shop.upload_books, name='upload_books'),
+    path('update_books/<int:book_id>', shop.update_books, name='update_books'),
+    path('delete_books/<int:book_id>',shop.delete_books,name = 'delete_books')
+
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
 
 ]
 

@@ -2,92 +2,52 @@
 {% block body_class %}blur-page{% endblock %}
 
 {% block content %}
-<div
-    class="container d-flex justify-content-center align-items-center"
-    style="min-height: 100vh"
->
-    <div class="col-md-4">
-        <form method="POST" action="{% url 'signup' %}">
-            {% csrf_token %}
-            <div
-                class="p-4 border rounded"
-                style="
-                    border-width: 2px;
-                    border-color: #333;
-                    background-color: #fff;"
-            >
-                <!-- Signup Form Fields -->
-                <div class="mb-3">
-                    <label for="userName" class="form-label">User Name</label>
-                    <input
-                        type="text"
-                        class="form-control"
-                        id="userName"
-                        name="username"
-                        placeholder="Username"
-                        required
-                    />
-                </div>
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow" style="width: 400px;">
+        <h2 class="text-center mb-4">SignUp</h2>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="email"
-                        name="email"
-                        placeholder="Email"
-                        required
-                    />
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone Number</label>
-                    <input
-                        type="number"
-                        class="form-control"
-                        id="phone"
-                        name="phone"
-                        placeholder="Phone Number"
-                        required
-                    />
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="password"
-                        name="password"
-                        placeholder="Password"
-                        required
-                    />
-                </div>
-                <div class="mb-3">
-                    <label for="confirmPassword" class="form-label"
-                        >Confirm Password</label
-                    >
-                    <input
-                        type="password"
-                        class="form-control"
-                        id="confirmPassword"
-                        name="confirm_password"
-                        placeholder="Confirm Password"
-                        required
-                    />
-                </div>
-                <div class="form-floating mb-3">
-                    <select class="form-control" name="user_type" required>
-                        <option value="user">User</option>
-                        <option value="shop_owner">Shop Owner</option>
-                        <option value="rider">Rider</option>
-                    </select>
-                    <label for="user_type">Select User Type</label>
-                </div>
-
-                <button type="submit" class="btn btn-primary w-100">
-                    Submit
-                </button>
+        <!-- Display success or error message -->
+        {% if msg %}
+            <div class="alert alert-info text-center">
+                {{ msg }}
             </div>
+        {% endif %}
+
+        <!-- Registration Form -->
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <label for="username" class="form-label">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group mb-3">
+                <label for="email" class="form-label">Email</label>
+                {{ form.email }}
+            </div>
+            <div class="form-group mb-3">
+                <label for="password1" class="form-label">Password</label>
+                {{ form.password1 }}
+            </div>
+            <div class="form-group mb-3">
+                <label for="password2" class="form-label">Confirm Password</label>
+                {{ form.password2 }}
+            </div>
+
+            <!-- Role Selection -->
+            <div class="form-group mb-3">
+                <label class="form-label">Choose Role:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="is_shopowner" name="is_shopowner">
+                    <label class="form-check-label" for="is_shopowner">Shopowner</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="is_user" name="is_user">
+                    <label class="form-check-label" for="is_user">User</label>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block w-100">Submit</button>
         </form>
     </div>
 </div>

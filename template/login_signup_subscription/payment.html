@@ -109,7 +109,16 @@
     <p class="payment-description">Securely pay through bKash by providing the details below:</p>
     <form class="bkash-form" action="{% url 'process_payment' %}" method="POST">
         {% csrf_token %}
-        
+
+        <div class="form-group">
+            <label for="phone">bKash Number:</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="01XXXXXXXXX"
+                required
+                pattern="[0-9]{11}"/>
         <div class="form-group">
             <label for="phone">bKash Number:</label>
             <input 
@@ -118,25 +127,39 @@
                 name="phone" 
                 placeholder="01XXXXXXXXX" 
                 required 
-                pattern="[0-9]{11}" 
+                pattern="[0-9]{11}"
                 title="Please enter a valid 11-digit phone number."
             />
         </div>
 
         <div class="form-group">
             <label for="transaction-id">Transaction ID:</label>
+            <input
+                type="text"
+                id="transaction-id"
+                name="transaction_id"
+                placeholder="Enter Transaction ID"
+                required/>
             <input 
                 type="text" 
                 id="transaction-id" 
                 name="transaction_id" 
                 placeholder="Enter Transaction ID" 
-                required 
+                required
                 maxlength="20"
             />
         </div>
 
         <div class="form-group">
             <label for="amount">Amount (BDT):</label>
+            <input
+                type="number"
+                id="amount"
+                name="amount"
+                placeholder="Enter Amount"
+                required
+                min="1"
+                step="0.01"/>
             <input 
                 type="number" 
                 id="amount" 
@@ -144,8 +167,7 @@
                 placeholder="Enter Amount" 
                 required 
                 min="1" 
-                step="0.01" 
-            />
+                step="0.01"/>
         </div>
 
         <!-- Terms and conditions checkbox -->
@@ -153,20 +175,14 @@
             <input 
                 type="checkbox" 
                 id="agree-terms" 
-                name="agree_terms" 
-                required
-            />
+                name="agree_terms"/>
             <label for="agree-terms">I agree to the <a href="#" style="color: #fff;">terms and conditions</a>.</label>
         </div>
-        
-        <!-- Proceed and Close buttons side by side -->
-       <!-- Proceed and Close buttons side by side with equal sizes -->
+
 <div class="button-container" style="display: flex; justify-content: space-between; gap: 10px;">
     <button type="submit" class="submit-btn" style="flex: 1; width: 48%;">Proceed</button>
     <button type="button" class="submit-btn" onclick="window.location.href='/subscription';" style="flex: 1; width: 48%;">Close</button>
 </div>
-
-        
 
     {% if messages %}
     <div class="messages">

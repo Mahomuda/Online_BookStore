@@ -47,9 +47,11 @@
       </ul>
       <form class="d-flex">
         <button class="btn btn-outline-light me-4" type="submit">Search</button>
-        <a href="{% url 'subscription' %}" class="btn btn-danger me-4"
-          >Subscription</a
-        >
+        <div class="text-center">
+            <a href="{% url 'subscription' %}" class="btn btn-danger me-4"
+              >Subscribe</a
+            >
+        </div>
         <a href="{% url 'login' %}" class="btn btn-light">Login</a>
       </form>
     </div>

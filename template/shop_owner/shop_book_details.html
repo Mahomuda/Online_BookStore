@@ -4,7 +4,25 @@
 {% load static %}
 
 {% block content %}
-  {{Book.name}}
-  {{Book.price}}
+<div class="book-container">
+    <div class="card" style="width: 25rem">
+        <h2>Name = {{allbooks.book_name}}</h2>
+
+        <img src= {{allbooks.image.url }}>
+        <p style="font-size: 1.5rem;">
+            Price = {{allbooks.price}}
+            <br />
+            Review = {{allbooks.review}}
+            <br />
+            Description = {{allbooks.description}}
+            <br />
+            Availability = {{allbooks.availability}}
+        </p>
+           <a class="btn btn-outline-dark mt-auto" href="{% url 'update_books' allbooks.book_id %}">Update</a>
+
+           <a class="btn btn-outline-dark mt-auto" href="{% url 'delete_books' allbooks.book_id %}">Delete</a>
+
+    </div>
+</div>
 
 {% endblock %}

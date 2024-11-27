@@ -1,12 +1,11 @@
-from lib2to3.fixes.fix_input import context
-
-from django.contrib.auth import authenticate, login as auth_login
-from django.db import IntegrityError
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from .Books_Forms import BooksForm
+from .form import SignupForm, loginForm
 from .models import *
+<<<<<<< HEAD
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Book, Order
@@ -14,6 +13,9 @@ from django.template.loader import get_template
 from django.shortcuts import render, get_object_or_404
 
 
+=======
+from django.contrib.auth import authenticate,login
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
 
 # Create your views here.
 
@@ -39,9 +41,9 @@ def books(request):
     return render(request, template_name='bmHome/books.html', context=item)
 
 def books_details(request, book_id):
-    product = Book.objects.get(pk=book_id)
+    allbooks = Book.objects.get(pk=book_id)
     context = {
-        'product': product,
+        'allbooks': allbooks,
     }
     return render(request, template_name='bmHome/books_details.html', context=context)
 
@@ -52,94 +54,70 @@ def contacts(request):
 def litshelf(request):
     return render(request, template_name='bmHome/litshelf.html')
 
-def academic(request):
-    all_books = Book.objects.all()
-    item = {
-        'all_books': all_books,
-    }
-    return render(request, template_name='Buy_Books/academic.html', context=item)
-
-
-def upload_Books(request):
-    form = BooksForm()
-    if request.method == 'POST':
-        form = BooksForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-    context = {'form': form}
-    return render(request, template_name='Buy_Books/books_forms.html', context=context)
-
-def update_product(request, book_id):
-    books = Book.objects.get(pk=book_id)
-    form = BooksForm(instance=books)
-    if request.method == 'POST':
-        form = BooksForm(request.POST, request.FILES, instance=books)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {'form': form}
-    return render(request, template_name='Buy_Books/books_details.html', context=context)
-
+def signup(request):
+   msg = None
+   if request.method == 'POST':
+       form = SignupForm(request.POST)
+       if form.is_valid():
+           user= form.save()
+           msg = 'user created'
+           return redirect('login')
+       else:
+           msg = 'Username already exists or Password is not valid (Password will have 8 characters and it will be unique)'
+   else:
+       form = SignupForm()
+   context = {
+       'form':form,
+       'msg': msg
+   }
+   return render(request, template_name='login_signup_subscription/signup.html',context=context)
 
 
 def login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user_type = request.POST.get('user_type')
-
-        # Authenticate the user
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            # Optional: Check user type if your user model has it
-            if hasattr(user, 'userprofile') and user.userprofile.user_type == user_type:
-                auth_login(request, user)  # Use Django's built-in login
-                return redirect('log_home')  # Redirect after successful login
-            else:
-                messages.error(request, "Incorrect user type selected.")
-        else:
-            messages.error(request, "Invalid username or password.")
-
-    return render(request, 'login_signup_subscription/login.html')
-
-def signup(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        phone = request.POST.get('phone')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-
-        # Check if passwords match
-        if password != confirm_password:
-            messages.error(request, "Passwords do not match.")
-            return redirect('signup')
-
-        # Create new user
-        try:
-            user = User.objects.create_user(
-                username=username,  # Ensure email is set as username
-                email=email
-            )
-            user.set_password(password)
-            user.save()
-            messages.success(request, "Account created successfully! Please log in.")
-            return redirect('login')  # Redirect to login page after successful signup
-        except IntegrityError:
-            messages.error(request, "An account with this email already exists.")
-            return redirect('signup')
-
-    return render(request, 'login_signup_subscription/signup.html')
+   form = loginForm(request.POST or None)
+   msg = None
+   if request.method == "POST" and form.is_valid():
+       username = form.cleaned_data.get('username')
+       password = form.cleaned_data.get('password')
+       user = authenticate(username = username, password = password)
+       if user is not None and user.is_shopowner:
+           return redirect('shop_profile')
+       elif user is not None and user.is_user:
+           return redirect('log_profile')
+       else:
+           msg = 'invalid credentials'
+   else:
+       msg = 'error validating form'
+   context = {
+       'form' : form,
+       'msg' : msg
+   }
+   return render(request, template_name='login_signup_subscription/login.html', context=context)
 
 def forget_pass(request):
     return render(request, template_name='login_signup_subscription/forget_pass.html')
 
-def login_with(request):
-    return render(request, template_name='login_signup_subscription/login_with.html')
-
 def payment(request):
     return render(request, template_name='login_signup_subscription/payment.html')
+
+def process_payment(request):
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        transaction_id = request.POST.get('transaction_id')
+        amount = request.POST.get('amount')
+
+        # Placeholder logic for payment validation
+        if phone and transaction_id and amount:
+            # Log or process payment
+            messages.success(request, "Payment processed successfully!")
+            return redirect('payment')  # Redirect back to the payment page or another relevant page
+        else:
+            messages.error(request, "Invalid payment details. Please try again.")
+            return redirect('payment')
+
+    return redirect('payment')
+
+
 
 def log_base(request):
     return render(request, template_name='login_user/log_base.html')
@@ -159,13 +137,13 @@ def log_book(request):
         'genre': genre_filter,
     }
     return render(request, template_name='login_user/log_book.html', context=item)
-
 def log_books_details(request, book_id):
-    mybooks = Book.objects.get(pk=book_id)
+    allbooks = Book.objects.get(pk=book_id)
     context = {
-        'mybooks': mybooks,
+        'allbooks': allbooks,
     }
     return render(request, template_name='login_user/log_books_details.html', context=context)
+<<<<<<< HEAD
 
 @login_required
 def purchase_book(request, book_id):
@@ -229,24 +207,54 @@ def payment_confirmation(request, book_id):
     return render(request, 'login_user/payment_confirmation.html', {'book': book})
 
 
+=======
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
 def log_help(request):
     return render(request, template_name='login_user/log_help.html')
 
 def log_profile(request):
-    return render(request, template_name='login_user/log_profile.html')
+    # Check if the user is authenticated
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login/')  # Redirect to login page if not logged in
 
-def u_help(request):
-    return render(request, template_name='subscribed_user/u_help.html')
+    userdetails = request.user  # Should get the details of the logged-in user
+    context = {
+        'userdetails': userdetails,
+    }
 
+    return render(request, 'login_user/log_profile.html', context)
+
+def sub_help(request):
+    return render(request, template_name='subscribed_user/sub_help.html')
 def sub_profile(request):
     return render(request, template_name='subscribed_user/sub_profile.html')
-
 def sub_navbar(request):
     return render(request, template_name='subscribed_user/sub_navbar.html')
-
 def sub_base(request):
     return render(request, template_name='subscribed_user/sub_base.html')
+def sub_books(request):
+    allbooks = Book.objects.all()
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, template_name='subscribed_user/sub_books.html',context=item)
 
+<<<<<<< HEAD
+=======
+def sub_rent_books(request):
+    allbooks = Book.objects.filter(rentable= 'yes')
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, 'subscribed_user/sub_rent_books.html', context= item)
+
+def sub_books_details(request,book_id):
+    allbooks = Book.objects.get(pk=book_id)
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
 
 def shop_base(request):
     return render(request, template_name='shop_owner/shop_base.html')
@@ -285,25 +293,34 @@ def shop_book_details(request,book_id):
     }
     return render(request,template_name = 'shop_owner/shop_book_details.html',context = item)
 
-
-def payment(request):
-    return render(request, template_name='login_signup_subscription/payment.html')
-
-def process_payment(request):
+def upload_books(request):
+    form = BooksForm()
     if request.method == 'POST':
-        phone = request.POST.get('phone')
-        transaction_id = request.POST.get('transaction_id')
-        amount = request.POST.get('amount')
+        form = BooksForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+    context = {'form': form}
+    return render(request, template_name='shop_owner/books_form.html', context=context)
 
-        # Placeholder logic for payment validation
-        if phone and transaction_id and amount:
-            # Log or process payment
-            messages.success(request, "Payment processed successfully!")
-            return redirect('payment')  # Redirect back to the payment page or another relevant page
-        else:
-            messages.error(request, "Invalid payment details. Please try again.")
-            return redirect('payment')
+def update_books(request, book_id):
+    allbooks = Book.objects.get(pk=book_id)
+    form = BooksForm (instance=allbooks)
+    if request.method == 'POST':
+        form = BooksForm(request.POST, request.FILES, instance=books)
+        if form.is_valid():
+            form.save()
+            return redirect('shop_books')
+    context = {'form': form}
+    return render(request, template_name='shop_owner/books_form.html',context=context)
 
+def delete_books(request,book_id):
+   allbooks = Book.objects.get(pk=book_id)
+   if request.method == 'POST':
+       allbooks.delete()
+       return redirect('home')
+   return render(request, template_name = 'shop_owner\delete_books.html')
+
+<<<<<<< HEAD
     return redirect('payment') 
 
 
@@ -311,3 +328,5 @@ def process_payment(request):
 def view_sub_profile(request, user_id):
     sub_profile = get_object_or_404(SubProfile, user_id=user_id)
     return render(request, 'sub_profile.html', {'sub_profile': sub_profile})
+=======
+>>>>>>> 515095f5869b8bb54f067331ee7b4f98e06d6d48
