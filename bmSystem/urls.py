@@ -17,6 +17,7 @@ Including another URL conf
 from django.contrib import admin
 from django.urls import path
 from . import settings
+from django.conf import settings
 from django.conf.urls.static import static
 
 from myapp import views as myapp_views
@@ -26,6 +27,9 @@ from myapp import views as login_user
 from myapp import views as subscribed_user
 from myapp import views as rent_books
 from myapp import views as shop
+from myapp import views
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,12 +37,13 @@ urlpatterns = [
     path('contacts/',myapp_views.contacts, name='contacts'),
     path('books/',myapp_views.books, name='books'),
     path('',myapp_views.litshelf, name='litshelf'),
+    path('books/<int:book_id>/', views.books_details, name='books_details'), 
 
 
-    path('academic/', buy_books_views.academic, name='academic'),
-    path('Buy_Books/<int:book_id>',buy_books_views.books_details, name = 'books_details'),
-    path('upload_Books/', buy_books_views.upload_Books, name='upload_Books'),
-    path('books_details/<int:book_id>', buy_books_views.books_details, name='books_details'),
+    #path('academic/', buy_books_views.academic, name='academic'),
+    #path('Buy_Books/<int:book_id>',buy_books_views.books_details, name = 'books_details'),
+    #path('upload_Books/', buy_books_views.upload_Books, name='upload_Books'),
+    #path('books_details/<int:book_id>', buy_books_views.books_details, name='books_details'),
 
 
     path('login/', login_signup_subscription.login, name='login'),
@@ -55,17 +60,18 @@ urlpatterns = [
     path('log_books_details/<int:book_id>', login_user.log_books_details, name='log_books_details'),
     path('log_help/', login_user.log_help, name='log_help'),
     path('log_profile/', login_user.log_profile, name='log_profile'),
+    path('purchase_book/<int:book_id>/purchase/', login_user.purchase_book, name='purchase_book'),
+    path('confirm_payment/<int:book_id>/', login_user.confirm_payment, name='confirm_payment'),
+    path('process-payment/<int:book_id>/', login_user.process_payment_for_book, name='process_payment_for_book'),
+    path('payment_confirmation/<int:book_id>/', login_user.payment_confirmation, name='payment_confirmation'),
+    
+
 
     path('u_help/', subscribed_user.u_help, name='sub_help'),
     path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
     path('subscribed_user/sub_base/', subscribed_user.sub_base, name='sub_base'),
     path('sub_navbar/', subscribed_user.sub_navbar, name='sub_navbar'),
-
-    path('r_academic/', rent_books.r_academic, name='r_academic'),
-    path('r_fiction/', rent_books.r_fiction, name='r_fiction'),
-    path('r_novel/', rent_books.r_novel, name='r_novel'),
-    path('r_thriller/', rent_books.r_thriller, name='r_thriller'),
-    path('r_poetry/', rent_books.r_poetry, name='r_poetry'),
+     
 
     path('shop_base/', shop.shop_base, name='shop_base'),
     path('shop_navbar/', shop.shop_navbar, name='shop_navbar'),
@@ -74,8 +80,20 @@ urlpatterns = [
     path('shop_help/', shop.shop_help, name='shop_help'),
     path('shop_profile/', shop.shop_profile, name='shop_profile'),
     path('shop_payment/', shop.shop_payment, name='shop_payment'),
+   
+   
+    path('sub_profile/<int:user_id>/', views.view_sub_profile, name='view_sub_profile'),
+    
+   
+     # Purchase and Checkout paths
+    
 
 ]
+
+   
+
+   
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

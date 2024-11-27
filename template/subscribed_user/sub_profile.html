@@ -2,7 +2,10 @@
 {% block body_class %}blur-page{% endblock %}
 
 {% block content %}
-<h1>
-    sub profile
-</h1>
+<div class="sub-profile">
+    <h1>Subscription Profile for {{ sub_profile.user.username }}</h1>
+    <p><strong>Subscription Type:</strong> {{ sub_profile.subscription_type }}</p>
+    <p><strong>Subscription Date:</strong> {{ sub_profile.subscription_date }}</p>
+    <p><strong>Expiry Date:</strong> {{ sub_profile.expiry_date }}</p>
+</div>
 {% endblock %}

@@ -3,7 +3,6 @@
 
 {% block content %}
 <div class="book-container">
-
     {% for p in all_books %}
         <div class="card" style="width: 10rem">
             <img src="{{ p.image.url }}" class="card-img-top" alt="Book Image" />
@@ -11,7 +10,8 @@
                 <p class="text-center card-text price-box">TK. {{ p.price }}</p>
             </div>
             <div class="text-center">
-                <a class="btn btn-outline-dark mt-auto" href="{% url 'books_details' p.book_id %}">Details</a>
+                <a class="btn btn-outline-dark mt-auto" href="{% url 'books_details' p.pk %}">Details</a>
+
             </div>
         </div>
     {% empty %}

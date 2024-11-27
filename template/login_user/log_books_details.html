@@ -4,7 +4,41 @@
 {% load static %}
 
 {% block content %}
-  {{book.name}}
-  {{book.price}}
+<div class="container mt-5">
 
+    <ul class="list-group">
+        <li class="list-group-item">
+    <div class="card" style="width: 10rem">
+
+        <img src= {{allbooks.image.url}}></div>
+
+    <h2 class="mb-4">{{ allbooks.book_name }}</h2>
+
+            <strong>Price:</strong> TK. {{ allbooks.price }}
+        </li>
+        <li class="list-group-item">
+            <strong>Genre:</strong> {{ allbooks.genre|default:"Not specified" }}
+        </li>
+        <li class="list-group-item">
+            <strong>Description:</strong> {{ allbooks.description|default:"No description available." }}
+        </li>
+        <li class="list-group-item">
+            <strong>Availability:</strong>
+            {% if allbooks.stock_quantity > 0 %}
+                Available
+            {% else %}
+                Out of Stock
+            {% endif %}
+        </li>
+    </ul>
+
+{% if allbooks.stock_quantity > 0 %}
+    <form action="{% url 'confirm_payment' book.id %}" method="GET">
+        <button type="submit" class="btn btn-success">Buy Now for TK. {{ mybooks.price }}</button>
+    </form>
+    {% else %}
+        <button class="btn btn-danger mt-4" disabled>Out of Stock</button>
+    {% endif %}
+    
+    
 {% endblock %}

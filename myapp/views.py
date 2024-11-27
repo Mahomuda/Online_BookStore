@@ -7,6 +7,13 @@ from django.urls import reverse
 from django.contrib import messages
 from .Books_Forms import BooksForm
 from .models import *
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Book, Order
+from django.template.loader import get_template
+from django.shortcuts import render, get_object_or_404
+
+
 
 # Create your views here.
 
@@ -158,7 +165,68 @@ def log_books_details(request, book_id):
     context = {
         'mybooks': mybooks,
     }
-    return render(request, template_name='Buy_Books/books_details.html', context=context)
+    return render(request, template_name='login_user/log_books_details.html', context=context)
+
+@login_required
+def purchase_book(request, book_id):
+    user = request.user 
+    
+    if hasattr(user, 'profile'):
+        user_profile = user.profile
+    else:
+        user_profile = None  
+  
+    book = get_object_or_404(Book, pk=book_id)
+    # Check if the book is available for purchase
+    if book.stock_quantity > 0:
+        # Create the order
+        order = Order.objects.create(
+            user_id=request.user,
+            book_name=book,
+            amount=book.price,  # Use 'amount' field in Order model
+            status='buy',  # Use 'status' field, not 'order_status'
+            phone=request.user.profile.phone  # Assuming the user has a profile with a phone number
+        )
+
+        # Update the book's stock quantity
+        book.stock_quantity -= 1
+        book.save()
+
+        # Redirect to a confirmation page or show a success message
+        return render(request, 'purchase_success.html', {'order': order})
+    else:
+        return render(request, 'purchase_failed.html', {'message': 'Out of stock'})
+    
+
+
+def confirm_payment(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    return render(request, 'login_user/confirm_payment.html', {'book': book})  # No need to include 'template/' in the path
+
+
+def process_payment_for_book(request, book_id): 
+    book = get_object_or_404(Book, id=book_id)
+    
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        transaction_id = request.POST.get('transaction_id')
+        amount = request.POST.get('amount')
+       
+        if phone and transaction_id and amount:
+            # Assume successful payment (you can replace this with actual validation logic)
+            book.is_sold = True  # Mark the book as sold after payment
+            book.save()
+            messages.success(request, f"Payment successful for {book.book_name}. Transaction ID: {transaction_id}.")
+            return redirect('payment_confirmation', book_id=book.id)  # Redirect to the confirmation page
+        else:
+            messages.error(request, "Please provide all the required details.")
+            return redirect('process_payment', book_id=book.id)
+
+    return render(request, 'login_user/process_payment_for_book.html', {'book': book})
+
+def payment_confirmation(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'login_user/payment_confirmation.html', {'book': book})
 
 
 def log_help(request):
@@ -178,21 +246,6 @@ def sub_navbar(request):
 
 def sub_base(request):
     return render(request, template_name='subscribed_user/sub_base.html')
-
-def r_academic(request):
-    return render(request, template_name='rent_Books/r_academic.html')
-
-def r_fiction(request):
-    return render(request, template_name='Rent_Books/r_fiction.html')
-
-def r_novel(request):
-    return render(request, template_name='Rent_Books/r_novel.html')
-
-def r_thriller(request):
-    return render(request, template_name='Rent_Books/r_thriller.html')
-
-def r_poetry(request):
-    return render(request, template_name='Rent_Books/r_poetry.html')
 
 
 def shop_base(request):
@@ -230,7 +283,7 @@ def shop_book_details(request,book_id):
     item = {
         'allbooks':allbooks,
     }
-    return render(request,template_name = 'shop_owner\shop_book_details.html',context = item)
+    return render(request,template_name = 'shop_owner/shop_book_details.html',context = item)
 
 
 def payment(request):
@@ -252,3 +305,9 @@ def process_payment(request):
             return redirect('payment')
 
     return redirect('payment') 
+
+
+
+def view_sub_profile(request, user_id):
+    sub_profile = get_object_or_404(SubProfile, user_id=user_id)
+    return render(request, 'sub_profile.html', {'sub_profile': sub_profile})
