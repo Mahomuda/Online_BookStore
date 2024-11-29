@@ -65,7 +65,7 @@ class ProfileUpdateForm(forms.ModelForm):
            model = User
            fields = ['username', 'email', 'address', 'contact_number']
 
-class Sub_LoginForm(forms.ModelForm):
+class Sub_LoginForm(forms.Form):
     username = forms.CharField(
         widget=forms.TextInput(
             attrs={'class': 'form-control'}

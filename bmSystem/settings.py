@@ -59,7 +59,7 @@ ROOT_URLCONF = 'bmSystem.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'template'],
+        'DIRS': [ BASE_DIR / "template"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,7 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR/'static',]
+STATICFILES_DIRS = [BASE_DIR/"static",]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -132,3 +132,6 @@ AUTH_USER_MODEL = 'myapp.User'  # Adjust according to your app name and user mod
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+  
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

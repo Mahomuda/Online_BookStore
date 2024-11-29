@@ -9,6 +9,15 @@ from .models import *
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as auth_login
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Book, Order
+from django.template.loader import get_template
+from django.shortcuts import render, get_object_or_404
+
+from django.contrib.auth import authenticate,login
+
+
 
 # Create your views here.
 
@@ -23,12 +32,12 @@ def subscription(request):
 def books(request):
     genre_filter = request.GET.get('genre', None)
     if genre_filter:
-        all_books = Book.objects.filter(genre__iexact=genre_filter)
+        allbooks = Book.objects.filter(genre__iexact=genre_filter)
     else:
-        all_books = Book.objects.all()
+        allbooks = Book.objects.all()
 
     item = {
-        'all_books': all_books,
+        'allbooks': allbooks,
         'genre': genre_filter,
     }
     return render(request, template_name='bmHome/books.html', context=item)
@@ -131,21 +140,85 @@ def log_navbar(request):
 def log_book(request):
     genre_filter = request.GET.get('genre', None)
     if genre_filter:
-        all_books = Book.objects.filter(genre__iexact=genre_filter)
+        allbooks = Book.objects.filter(genre__iexact=genre_filter)
     else:
-        all_books = Book.objects.all()
+        allbooks = Book.objects.all()
 
     item = {
-        'all_books': all_books,
+        'all_books': allbooks,
         'genre': genre_filter,
     }
     return render(request, template_name='login_user/log_book.html', context=item)
 def log_books_details(request, book_id):
-    allbooks = Book.objects.get(pk=book_id)
+    allbooks = Book.objects.get(id=book_id)
     context = {
         'allbooks': allbooks,
     }
     return render(request, template_name='login_user/log_books_details.html', context=context)
+    return render(request, 'login_user/log_books_details.html', context)
+
+
+
+@login_required
+def purchase_book(request, book_id):
+    user = request.user 
+    
+    if hasattr(user, 'profile'):
+        user_profile = user.profile
+    else:
+        user_profile = None  
+  
+    book = get_object_or_404(Book, pk=book_id)
+    # Check if the book is available for purchase
+    if book.stock_quantity > 0:
+        # Create the order
+        order = Order.objects.create(
+            user_id=request.user,
+            book_name=book,
+            amount=book.price,  # Use 'amount' field in Order model
+            status='buy',  # Use 'status' field, not 'order_status'
+            phone=request.user.profile.phone  # Assuming the user has a profile with a phone number
+        )
+
+        # Update the book's stock quantity
+        book.stock_quantity -= 1
+        book.save()
+
+        # Redirect to a confirmation page or show a success message
+        return render(request, 'purchase_success.html', {'order': order})
+    else:
+        return render(request, 'purchase_failed.html', {'message': 'Out of stock'})
+    
+
+
+def confirm_payment(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    return render(request, 'login_user/confirm_payment.html', {'book': book})  # No need to include 'template/' in the path
+
+
+def process_payment_for_book(request, book_id): 
+    book = get_object_or_404(Book, id=book_id)
+    
+    if request.method == 'POST':
+        phone = request.POST.get('phone')
+        transaction_id = request.POST.get('transaction_id')
+        amount = request.POST.get('amount')
+       
+        if phone and transaction_id and amount:
+            # Assume successful payment (you can replace this with actual validation logic)
+            book.is_sold = True  # Mark the book as sold after payment
+            book.save()
+            messages.success(request, f"Payment successful for {book.book_name}. Transaction ID: {transaction_id}.")
+            return redirect('payment_confirmation', book_id=book.id)  # Redirect to the confirmation page
+        else:
+            messages.error(request, "Please provide all the required details.")
+            return redirect('process_payment', book_id=book.id)
+
+    return render(request, 'login_user/process_payment_for_book.html', {'book': book})
+
+def payment_confirmation(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'login_user/payment_confirmation.html', {'book': book})
 
 def log_help(request):
     return render(request, template_name='login_user/log_help.html')
@@ -201,6 +274,7 @@ def sub_books(request):
     }
     return render(request, template_name='subscribed_user/sub_books.html',context=item)
 
+
 def sub_rent_books(request):
     allbooks = Book.objects.filter(rentable= 'yes')
     item = {
@@ -214,9 +288,6 @@ def sub_books_details(request,book_id):
         'allbooks': allbooks,
     }
     return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
-
-
-
 
 def shop_base(request):
     return render(request, template_name='shop_owner/shop_base.html')
@@ -290,4 +361,11 @@ def delete_books(request,book_id):
        allbooks.delete()
        return redirect('home')
    return render(request, template_name = 'shop_owner\delete_books.html')
+   return redirect('payment') 
+
+
+def view_sub_profile(request, user_id):
+    sub_profile = get_object_or_404(SubProfile, user_id=user_id)
+    return render(request, 'sub_profile.html', {'sub_profile': sub_profile})
+
 
