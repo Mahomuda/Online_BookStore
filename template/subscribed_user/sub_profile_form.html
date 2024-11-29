@@ -1,15 +1,12 @@
-{% extends "shop_owner/shop_base.html" %}
+{% extends "subscribed_user/sub_base.html" %}
 {% block body_class %}blur-page{% endblock %}
 
-{% load static %}
 {% block content %}
 
 <form method = "POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" name="Submit">
-
-
 </form>
 
 {% endblock %}

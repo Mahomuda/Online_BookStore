@@ -27,10 +27,9 @@ from myapp import views as shop
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/',myapp_views.home, name='home'),
+    path('',myapp_views.home, name='home'),
     path('contacts/',myapp_views.contacts, name='contacts'),
     path('books/',myapp_views.books, name='books'),
-    path('',myapp_views.litshelf, name='litshelf'),
     path('books_details/<int:book_id>', myapp_views.books_details, name='books_details'),
 
 
@@ -47,6 +46,10 @@ urlpatterns = [
     path('log_books_details/<int:book_id>', login_user.log_books_details, name='log_books_details'),
     path('log_help/', login_user.log_help, name='log_help'),
     path('log_profile/', login_user.log_profile, name='log_profile'),
+    path('logout/', login_user.logout_view, name='logout'),
+    path('update_profile/', login_user.update_profile, name='update_profile'),
+
+
 
     path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
     path('subscribed_user/sub_base/', subscribed_user.sub_base, name='sub_base'),
@@ -55,6 +58,7 @@ urlpatterns = [
     path('sub_rent_books/', subscribed_user.sub_rent_books, name='sub_rent_books'),
     path('sub_books_details/<int:book_id>', subscribed_user.sub_books_details, name='sub_books_details'),
     path('sub_help/', subscribed_user.sub_help, name='sub_help'),
+    path('update_sub_profile/', login_user.update_sub_profile, name='update_sub_profile'),
 
     path('shop_base/', shop.shop_base, name='shop_base'),
     path('shop_navbar/', shop.shop_navbar, name='shop_navbar'),
@@ -62,11 +66,11 @@ urlpatterns = [
     path('shop_book_details/<int:book_id>', shop.shop_book_details, name='shop_book_details'),
     path('shop_help/', shop.shop_help, name='shop_help'),
     path('shop_profile/', shop.shop_profile, name='shop_profile'),
+    path('shop_update_profile/', login_user.shop_update_profile, name='shop_update_profile'),
     path('shop_payment/', shop.shop_payment, name='shop_payment'),
     path('upload_books/', shop.upload_books, name='upload_books'),
     path('update_books/<int:book_id>', shop.update_books, name='update_books'),
-    path('delete_books/<int:book_id>',shop.delete_books,name = 'delete_books')
-
+    path('delete_books/<int:book_id>',shop.delete_books,name = 'delete_books'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

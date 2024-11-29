@@ -1,11 +1,14 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from .Books_Forms import BooksForm
-from .form import SignupForm, loginForm
+from .form import SignupForm, ProfileUpdateForm, LoginForm, Sub_LoginForm
 from .models import *
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate, logout
+from django.contrib.auth import login as auth_login
+
 
 # Create your views here.
 
@@ -41,48 +44,59 @@ def books_details(request, book_id):
 def contacts(request):
     return render(request, template_name='bmHome/contacts.html')
 
-def litshelf(request):
-    return render(request, template_name='bmHome/litshelf.html')
-
 def signup(request):
-   msg = None
-   if request.method == 'POST':
-       form = SignupForm(request.POST)
-       if form.is_valid():
-           user= form.save()
-           msg = 'user created'
-           return redirect('login')
-       else:
-           msg = 'Username already exists or Password is not valid (Password will have 8 characters and it will be unique)'
-   else:
-       form = SignupForm()
-   context = {
-       'form':form,
-       'msg': msg
-   }
-   return render(request, template_name='login_signup_subscription/signup.html',context=context)
-
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Pass the request and the user object to the login() function
+            return redirect('login')
+    else:
+        form = SignupForm()
+    return render(request, 'login_signup_subscription/signup.html', {'form': form})
 
 def login(request):
-   form = loginForm(request.POST or None)
-   msg = None
-   if request.method == "POST" and form.is_valid():
-       username = form.cleaned_data.get('username')
-       password = form.cleaned_data.get('password')
-       user = authenticate(username = username, password = password)
-       if user is not None and user.is_shopowner:
-           return redirect('shop_profile')
-       elif user is not None and user.is_user:
-           return redirect('log_profile')
-       else:
-           msg = 'invalid credentials'
-   else:
-       msg = 'error validating form'
-   context = {
-       'form' : form,
-       'msg' : msg
-   }
-   return render(request, template_name='login_signup_subscription/login.html', context=context)
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                auth_login(request, user)
+
+                if user.user_type == 'normal':
+                    return redirect('log_profile')
+                elif user.user_type == 'shopowner':
+                    return redirect('shop_profile')
+            else:
+                messages.error(request, "Invalid username or password")
+    else:
+        form = LoginForm()
+    return render(request, 'login_signup_subscription/login.html', {'form': form})
+
+
+def subscription(request):
+    if request.method == 'POST':
+        form = Sub_LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            email = form.cleaned_data['email']
+            user = authenticate(request, username=username, password=password)
+
+            if user is None:
+                user = authenticate(request, username=email, password=password)
+
+            if user is not None:
+
+                return redirect('sub_profile')
+            else:
+                form.add_error(None, 'Invalid login credentials')
+    else:
+        form = Sub_LoginForm()
+    return render(request, 'login_signup_subscription/subscription.html', {'form': form})
+
 
 def forget_pass(request):
     return render(request, template_name='login_signup_subscription/forget_pass.html')
@@ -106,7 +120,6 @@ def process_payment(request):
             return redirect('payment')
 
     return redirect('payment')
-
 
 
 def log_base(request):
@@ -133,25 +146,50 @@ def log_books_details(request, book_id):
         'allbooks': allbooks,
     }
     return render(request, template_name='login_user/log_books_details.html', context=context)
+
 def log_help(request):
     return render(request, template_name='login_user/log_help.html')
 
+
+@login_required
 def log_profile(request):
-    # Check if the user is authenticated
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/login/')  # Redirect to login page if not logged in
+    return render(request, 'login_user/log_profile.html', {'user': request.user})
 
-    userdetails = request.user  # Should get the details of the logged-in user
-    context = {
-        'userdetails': userdetails,
-    }
 
-    return render(request, 'login_user/log_profile.html', context)
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('log_profile')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+    return render(request, 'login_user/profile_form.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
 
 def sub_help(request):
     return render(request, template_name='subscribed_user/sub_help.html')
+
+@login_required
 def sub_profile(request):
-    return render(request, template_name='subscribed_user/sub_profile.html')
+    return render(request, template_name='subscribed_user/sub_profile.html',context={'user': request.user})
+
+def update_sub_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('log_profile')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+    return render(request, 'subscribed_user/sub_profile_form.html', {'form': form})
+
 def sub_navbar(request):
     return render(request, template_name='subscribed_user/sub_navbar.html')
 def sub_base(request):
@@ -177,6 +215,9 @@ def sub_books_details(request,book_id):
     }
     return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
 
+
+
+
 def shop_base(request):
     return render(request, template_name='shop_owner/shop_base.html')
 
@@ -196,13 +237,22 @@ def shop_books(request):
     }
     return render(request, template_name='shop_owner/shop_books.html', context=item)
 
-
-
 def shop_help(request):
     return render(request, template_name='shop_owner/shop_help.html')
 
+@login_required
 def shop_profile(request):
-    return render(request, template_name='shop_owner/shop_profile.html')
+    return render(request, 'shop_owner/shop_profile.html', {'user': request.user})
+
+def shop_update_profile(request):
+    if request.method == 'POST':
+        form = ProfileUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('log_profile')
+    else:
+        form = ProfileUpdateForm(instance=request.user)
+    return render(request, 'shop_owner/shop_profile_form.html', {'form': form})
 
 def shop_payment(request):
     return render(request, template_name='shop_owner/shop_payment.html')

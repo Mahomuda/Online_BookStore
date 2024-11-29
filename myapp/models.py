@@ -1,13 +1,59 @@
+import uuid
+
 from django.db import models
 from django.conf import settings
-from tabnanny import verbose
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, Permission, Group
 
-class User (AbstractUser):
-    is_admin = models.BooleanField(verbose_name='Is Admin', default=False)
-    is_user = models.BooleanField( verbose_name= 'Is user', default=False)
-    is_shopowner = models.BooleanField( verbose_name= 'Is shopowner', default=False)
+
+class User(AbstractUser):
+    USER_TYPE_CHOICES = (
+        ('normal', 'User'),
+        ('shopowner', 'Shop Owner'),
+    )
+    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    username = models.CharField(max_length=100, unique=True)  # Ensure username is unique
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES, default='normal')
+    address = models.TextField(blank=True, null=True)
+    contact_number = models.CharField(max_length=15, blank=True, null=True)
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name='user_groups',  # Unique related_name
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='user_permissions',  # Unique related_name
+        blank=True
+    )
+
+    def __str__(self):
+        return self.username
+
+
+class Sub_user(AbstractUser):
+    sub_user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    linked_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, blank=True, null=True, related_name='sub_users'
+    )  # Renamed from 'username' to avoid conflict
+    address = models.TextField(blank=True, null=True)
+    contact_number = models.CharField(max_length=15, blank=True, null=True)
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name='sub_user_groups',  # Unique related_name
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='sub_user_permissions',  # Unique related_name
+        blank=True
+    )
+
+    def __str__(self):
+        return f"Sub User: {self.linked_user}" if self.linked_user else "Unlinked Sub User"
+
 # Book model
 class Book(models.Model):
     book_id = models.IntegerField()
