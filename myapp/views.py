@@ -19,7 +19,7 @@ from django.contrib.auth import authenticate,login
 
 
 
-# Create your views here.
+
 
 def home(request):
     return render(request, template_name='bmHome/home.html')
