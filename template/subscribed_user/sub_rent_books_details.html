@@ -31,9 +31,10 @@
 </div>
 <div class="container mt-1">
     {% if allbooks.stock_quantity > 0 %}
-        <form action="{% url 'confirm_payment' allbooks.id %}" method="GET">
-            <button type="submit" class="btn btn-success">Buy Now for TK. {{ allbooks.price }}</button>
-        </form>
+       <form action="{% url 'rent_info' allbooks.id %}" method="GET">
+            <button type="submit" class="btn btn-success" >rent</button>
+       </form>
+
     {% else %}
         <button class="btn btn-danger mt-4" disabled>Out of Stock</button>
     {% endif %}

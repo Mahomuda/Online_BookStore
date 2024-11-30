@@ -155,7 +155,6 @@ def log_books_details(request, book_id):
         'allbooks': allbooks,
     }
     return render(request, template_name='login_user/log_books_details.html', context=context)
-    return render(request, 'login_user/log_books_details.html', context)
 
 
 
@@ -169,22 +168,21 @@ def purchase_book(request, book_id):
         user_profile = None  
   
     book = get_object_or_404(Book, pk=book_id)
-    # Check if the book is available for purchase
+
     if book.stock_quantity > 0:
-        # Create the order
+
         order = Order.objects.create(
             user_id=request.user,
             book_name=book,
-            amount=book.price,  # Use 'amount' field in Order model
-            status='buy',  # Use 'status' field, not 'order_status'
-            phone=request.user.profile.phone  # Assuming the user has a profile with a phone number
+            amount=book.price,
+            status='buy',
+            phone=request.user.profile.phone
         )
 
-        # Update the book's stock quantity
+
         book.stock_quantity -= 1
         book.save()
 
-        # Redirect to a confirmation page or show a success message
         return render(request, 'purchase_success.html', {'order': order})
     else:
         return render(request, 'purchase_failed.html', {'message': 'Out of stock'})
@@ -205,8 +203,8 @@ def process_payment_for_book(request, book_id):
         amount = request.POST.get('amount')
        
         if phone and transaction_id and amount:
-            # Assume successful payment (you can replace this with actual validation logic)
-            book.is_sold = True  # Mark the book as sold after payment
+
+            book.is_sold = True
             book.save()
             messages.success(request, f"Payment successful for {book.book_name}. Transaction ID: {transaction_id}.")
             return redirect('payment_confirmation', book_id=book.id)  # Redirect to the confirmation page
@@ -288,6 +286,27 @@ def sub_books_details(request,book_id):
         'allbooks': allbooks,
     }
     return render(request, template_name='subscribed_user/sub_books_details.html',context= item)
+def sub_rent_books_details(request,book_id):
+    allbooks = Book.objects.get(pk=book_id)
+    item = {
+        'allbooks': allbooks,
+    }
+    return render(request, template_name='subscribed_user/sub_rent_books_details.html',context= item)
+
+
+def rent_info(request, book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method == "POST":
+        email = request.POST.get('email')
+        address = request.POST.get('address')
+        duration = request.POST.get('duration')
+    return render(request, 'subscribed_user/rent_info.html', {'book': book})
+
+
+def rent_confirmation(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'subscribed_user/rent_confirmation.html', {'book': book})
+
 
 def shop_base(request):
     return render(request, template_name='shop_owner/shop_base.html')

@@ -58,17 +58,16 @@ urlpatterns = [
     path('payment_confirmation/<int:book_id>/', login_user.payment_confirmation, name='payment_confirmation'),
 
 
-
     path('sub_profile/', subscribed_user.sub_profile, name='sub_profile'),
     path('subscribed_user/sub_base/', subscribed_user.sub_base, name='sub_base'),
     path('sub_navbar/', subscribed_user.sub_navbar, name='sub_navbar'),
-
-     
-
     path('sub_books/', subscribed_user.sub_books, name='sub_books'),
     path('sub_rent_books/', subscribed_user.sub_rent_books, name='sub_rent_books'),
+    path('sub_rent_books_details/<int:book_id>', subscribed_user.sub_rent_books_details, name='sub_rent_books_details'),
     path('sub_books_details/<int:book_id>', subscribed_user.sub_books_details, name='sub_books_details'),
+    path('rent_info/<int:book_id>/', subscribed_user.rent_info, name='rent_info'),
     path('sub_help/', subscribed_user.sub_help, name='sub_help'),
+    path('rent_confirmation/<int:book_id>/', subscribed_user.rent_confirmation, name='rent_confirmation'),
     path('update_sub_profile/', login_user.update_sub_profile, name='update_sub_profile'),
 
 
